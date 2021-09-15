@@ -26,6 +26,8 @@ const EducationInput = () => {
               <MenuItem value={"B.Sc"}>B.Sc</MenuItem>
               <MenuItem value={"M.Sc"}>M.Sc</MenuItem>
               <MenuItem value={"B.B.A"}>B.B.A</MenuItem>
+              <MenuItem value={"Others"}>Others</MenuItem>
+              
             </Select>
           </Grid>
         </Grid>
