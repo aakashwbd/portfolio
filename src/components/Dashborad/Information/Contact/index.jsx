@@ -7,6 +7,9 @@ import {
   Collapse,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -17,6 +20,22 @@ import React from "react";
 import { useState } from "react";
 import { useStyles } from "../Styled";
 import { useEffect } from "react";
+import { Close } from "@material-ui/icons";
+
+const address_data = [
+  {
+    value: "Present",
+    label: "Present",
+  },
+  {
+    value: "Permanent",
+    label: "Permanent",
+  },
+  {
+    value: "Street",
+    label: "Street",
+  },
+];
 
 const Contact = () => {
   const classes = useStyles();
@@ -26,35 +45,27 @@ const Contact = () => {
     setExpanded(!expanded);
   };
 
-  const [name, setName] = useState();
+  const [address, setAddress] = useState(null);
 
-  const [basicInfo, setBasicInfo] = useState();
-
-  const completeBtn = () => {
-    let carts = JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    let basicinfo_data = {
-      name: name,
-    };
-
-    carts = [...carts, basicinfo_data];
-    setBasicInfo(basicinfo_data);
-
-    localStorage.setItem("basicInformaion", JSON.stringify(carts));
-
-    console.log(basicInfo);
-
-    // setExpanded(!expanded);
+  const handleChange = (event) => {
+    setAddress(event.target.value);
   };
 
-  const [showInfo, setShowInfo] = useState();
+  const [add, setAdd] = useState([""]);
+  const addBtn = (index, value) => {
+    if (index !== add.length - 1) {
+      let addItems = [...add] ;
+      let formate = addItems.filter((item, i) => i !== index);
+      setAdd(formate);
+    } else {
+      setAdd((prevState) => [...prevState, ""]);
+    }
+    console.log(index);
+  };
+  console.log(add)
+  // const phoneChange = ()=> {
 
-  useEffect(() => {
-    let basicInfoCart =
-      JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    setShowInfo(basicInfoCart);
-  }, []);
+  // }
   return (
     <Box>
       <Card elevation={0} className={classes.card}>
@@ -70,159 +81,146 @@ const Contact = () => {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Box my={2}>
-              <Typography>Present Address</Typography>
-
-              <Grid container spacing={2}>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="House"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Road"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="city"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Zip code"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
+            <Box>
+              <TextField
+                id="standard-select-currency"
+                select
+                fullWidth
+                label="Select"
+                value={address}
+                onChange={handleChange}
+                // className={classes.textField}
+                helperText="Please select your address"
+              >
+                {address_data.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Box>
 
-            <Box my={2}>
-              <Typography>Parmanent Address</Typography>
-
-              <Grid container spacing={2}>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="House"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+            {address === "Present" && (
+              <Box mt={2}>
+                <Grid container spacing={1}>
+                  <Grid item sm={3}>
+                    <TextField
+                      fullWidth
+                      placeholder="Holding No"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
+                  <Grid item sm={3}>
+                    <TextField
+                      fullWidth
+                      placeholder="Road No"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
+                  <Grid item sm={3}>
+                    <TextField
+                      fullWidth
+                      placeholder="city"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
+                  <Grid item sm={3}>
+                    <TextField
+                      fullWidth
+                      placeholder="Zip Code"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Road"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2}>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="city"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Zip code"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-
-            <Box my={2}>
-              <Typography>Phone</Typography>
-              <Grid container spacing={2}>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Phone"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Alternative Phone"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-              </Grid>
-              <Box my={2}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  className={classes.btnColor}
-                >
-                  add
-                </Button>
               </Box>
-            </Box>
-            <Box my={2}>
-              <Typography>Mail</Typography>
-              <Grid container spacing={2}>
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Mail"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+            )}
+
+            {address === "Permanent" && (
+              <Box mt={2}>
+                <Grid container spacing={1}>
+                  <Grid item sm={6}>
+                    <TextField
+                      fullWidth
+                      placeholder="Village"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
+                  <Grid item sm={6}>
+                    <TextField
+                      fullWidth
+                      placeholder="P.O"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
                 </Grid>
+                <Grid container spacing={1}>
+                  <Grid item sm={6}>
+                    <TextField
+                      fullWidth
+                      placeholder="P.S"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
+                  <Grid item sm={6}>
+                    <TextField
+                      fullWidth
+                      placeholder="Dist"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            )}
+
+            <Box mt={3}>
+              <Typography>Phone No</Typography>
+              {add.map((item, i) => (
+                <Grid container key={i}>
+                  <Grid item sm={8}>
+                    <TextField
+                      fullWidth
+                      placeholder="Phone"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                      // onChange={phoneChange}
+                    />
+                  </Grid>
+                  <Grid item sm={2}>
+                    <IconButton onClick={() => addBtn(i, item)}>
+                      {i !== add.length - 1 ? (
+                        <Close />
+                      ) : (
+                        <AddCircleOutlineIcon />
+                      )}
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              ))}
+            </Box>
+
+            <Box mt={2}>
+              <Typography>E-mail</Typography>
+
+              <Grid container>
                 <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Alternative Mail"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                <TextField
+                      fullWidth
+                      type='mail'
+                      placeholder="Email"
+                      InputProps={{ disableUnderline: true }}
+                      className={classes.textField}
+                   
+                    />
                 </Grid>
               </Grid>
-              <Box my={2}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  className={classes.btnColor}
-                >
-                  add
-                </Button>
-              </Box>
             </Box>
 
             <Box mt={2} textAlign="right">
@@ -230,11 +228,13 @@ const Contact = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={completeBtn}
+      
               >
-                Complete
+                Save
               </Button>
             </Box>
+
+           
           </CardContent>
         </Collapse>
       </Card>

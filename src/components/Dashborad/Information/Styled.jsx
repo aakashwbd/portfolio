@@ -47,6 +47,14 @@ export const useStyles = makeStyles({
     border: "1px solid #E5E5E5",
     padding: "5px 10px",
     borderRadius: 8,
+  }, 
+  dob: {
+    // height: 40,
+    // width: "100%",
+    background: "#FFFFFF",
+    border: "1px solid #E5E5E5",
+    padding: "5px 10px",
+    borderRadius: 8,
   },
   input: {
     display: "none",

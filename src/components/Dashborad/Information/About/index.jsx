@@ -15,6 +15,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 
 import {useStyles} from '../Styled'
+import axios from "axios";
 
 
 const About = () => {
@@ -24,8 +25,18 @@ const About = () => {
     setExpanded(!expanded);
   };
 
-  const completeBtn = () => {
-    setExpanded(!expanded);
+  const [about, setAbout] = useState({
+    description: ''
+  })
+  const handelInput = (e) => {
+    setAbout({...about, [e.target.name]: e.target.value})
+  }
+  const aboutBtn = (e) => {
+    e.preventDefault();
+
+    axios
+    .post(`http://127.0.0.1:8000/api/information/about`, about)
+    .then((res) => {});
   };
   return (
     <Box>
@@ -49,6 +60,9 @@ const About = () => {
                 className={classes.textField}
                 multiline
                 minRows="6"
+                onChange={handelInput}
+                name='description'
+                value={about.description}
               />
             </Box>
 
@@ -57,9 +71,9 @@ const About = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={completeBtn}
+                onClick={aboutBtn}
               >
-                Complete
+                save
               </Button>
             </Box>
           </CardContent>

@@ -19,7 +19,66 @@ import Referrence from "./Referrence";
 const Information = () => {
   return (
     <Dashboard>
-      <Box>
+      <Grid container>
+        <Grid item>
+          <Box>
+            <Photos />
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item sm={6}>
+          <Grid>
+            <Box my={2}>
+              <Basic />
+            </Box>
+
+            <Box mt={2}>
+              <About />
+            </Box>
+
+            <Box mt={2}>
+              <Contact />
+            </Box>
+
+            <Box mt={2}>
+              <Education />
+            </Box>
+
+            <Box mt={2}>
+              <Experience />
+            </Box>
+
+            <Box mt={2}>
+              <Trainings />
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Grid item sm={6}>
+          <Grid>
+            <Box mt={2}>
+              <Summary />
+            </Box>
+
+            <Box mt={2}>
+              <Skills />
+            </Box>
+
+            <Box mt={2}>
+              <Awards />
+            </Box>
+
+            <Box mt={2}>
+              <Certificates />
+            </Box>
+            <Box mt={2}>
+              <Referrence />
+            </Box>
+          </Grid>
+        </Grid>
+      </Grid>
+      {/* <Box>
         <Grid container spacing={2} justifyContent="space-between">
           <Grid item sm={5}>
             <Photos />
@@ -78,7 +137,7 @@ const Information = () => {
             <Referrence />
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
     </Dashboard>
   );
 };

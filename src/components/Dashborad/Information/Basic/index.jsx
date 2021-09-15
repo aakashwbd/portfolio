@@ -5,6 +5,10 @@ import {
   CardContent,
   CardHeader,
   Collapse,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Grid,
   IconButton,
   TextField,
@@ -17,46 +21,19 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useStyles } from "../Styled";
 
+import EditIcon from "@material-ui/icons/Edit";
+
 import axios from "axios";
+import BasicInput from "./BasicInput";
 
 const Basic = () => {
   const classes = useStyles();
 
   const [expanded, setExpanded] = useState();
-
   const handleClick = () => {
     setExpanded(!expanded);
   };
 
-  // const [name, setName] = useState();
-
-  // const [basicInfo, setBasicInfo] = useState();
-
-  // const completeBtn = () => {
-  //   let carts = JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-  //   let basicinfo_data = {
-  //     name: name,
-  //   };
-
-  //   carts = [...carts, basicinfo_data];
-  //   setBasicInfo(basicinfo_data);
-
-  //   localStorage.setItem("basicInformaion", JSON.stringify(carts));
-
-  //   console.log(basicInfo);
-
-  //   // setExpanded(!expanded);
-  // };
-
-  // const [showInfo, setShowInfo] = useState();
-
-  // useEffect(() => {
-  //   let basicInfoCart =
-  //     JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-  //   setShowInfo(basicInfoCart);
-  // }, []);
   const [basic, setBasic] = useState({
     name: "",
     dob: "",
@@ -65,6 +42,7 @@ const Basic = () => {
     nationality: "",
     nid: "",
     birthCertificate: "",
+    passport: "",
   });
 
   const handleInput = (e) => {
@@ -74,34 +52,25 @@ const Basic = () => {
   const basicSubmit = (e) => {
     e.preventDefault();
 
-    const data = {
-      name: basic.name,
-      dob: basic.dob,
-      bloodGroup: basic.bloodGroup,
-      maritialStatus: basic.maritialStatus,
-      nationality: basic.nationality,
-      nid: basic.nid,
-      birthCertificate: basic.birthCertificate,
-    };
-    // console.log(data)
-    axios
-      .post(`http://127.0.0.1:8000/api/information/basic`, data)
-      .then((res) => {});
-
-   
+    axios({
+      method: "patch",
+      url: "http://127.0.0.1:8000/api/auth/update",
+      data: basic,
+      headers: {
+        Authorization: localStorage.getItem("authToken"),
+      },
+    }).then((res) => {});
   };
 
-  const [showData, setShowData] = useState([]);
+  const [open, setOpen] = React.useState(false);
 
-  const getShow = () => {
-    axios.get(`http://127.0.0.1:8000/api/information/basic`).then((res) => {
-      console.log(res);
-     
-    });
+  const handleClickOpen = () => {
+    setOpen(true);
   };
-  // useEffect(() => {
-  //   getShow();
-  // }, []);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box>
@@ -118,108 +87,8 @@ const Basic = () => {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Grid
-              container
-              spacing={1}
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid item sm={12}>
-                <TextField
-                  fullWidth
-                  placeholder="Name"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="name"
-                  value={basic.name}
-                />
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={1}
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid item sm={6}>
-                <TextField
-                  type="date"
-                  fullWidth
-                  placeholder="Date of Birth"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="dob"
-                  value={basic.dob}
-                />
-              </Grid>
-              <Grid item sm={6}>
-                <TextField
-                  fullWidth
-                  placeholder="Blood Group"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="bloodGroup"
-                  value={basic.bloodGroup}
-                />
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={1}
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Grid item sm={6}>
-                <TextField
-                  fullWidth
-                  placeholder="Maritial Status"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="maritialStatus"
-                  value={basic.maritialStatus}
-                />
-              </Grid>
+            <BasicInput />
 
-              <Grid item sm={6}>
-                <TextField
-                  fullWidth
-                  placeholder="Nationality"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="nationality"
-                  value={basic.nationality}
-                />
-              </Grid>
-            </Grid>
-            <Grid container spacing={1}>
-              <Grid item sm={6}>
-                <TextField
-                  fullWidth
-                  placeholder="NID No"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="nid"
-                  value={basic.nid}
-                />
-              </Grid>
-              <Grid item sm={6}>
-                <TextField
-                  fullWidth
-                  placeholder="Birth Certificate No"
-                  InputProps={{ disableUnderline: true }}
-                  className={classes.textField}
-                  onChange={handleInput}
-                  name="birthCertificate"
-                  value={basic.birthCertificate}
-                />
-              </Grid>
-            </Grid>
             <Box mt={2} textAlign="right">
               <Button
                 variant="contained"
@@ -233,10 +102,42 @@ const Basic = () => {
           </CardContent>
 
           <Box>
-            <Button onClick={getShow}>show</Button>
-            <Typography>Name:</Typography>
-            <Typography>B.G: </Typography>
-            {/* {showData} */}
+            <CardHeader
+              action={
+                <IconButton onClick={handleClickOpen}>
+                  <EditIcon />
+                </IconButton>
+              }
+            />
+
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Update</DialogTitle>
+              <DialogContent>
+                <BasicInput />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={handleClose} color="primary">
+                  Update
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            <CardContent>
+              <Typography>Name: </Typography>
+              <Typography>Blood Group: </Typography>
+              <Typography>Dob: </Typography>
+              <Typography>Maritial Status: </Typography>
+              <Typography>Nationality: </Typography>
+              <Typography>NID: </Typography>
+              <Typography>Birth Reg No: </Typography>
+            </CardContent>
           </Box>
         </Collapse>
       </Card>

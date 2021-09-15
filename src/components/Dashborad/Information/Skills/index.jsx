@@ -30,36 +30,6 @@ const Skills = () => {
     setExpanded(!expanded);
   };
 
-  const [name, setName] = useState();
-
-  const [basicInfo, setBasicInfo] = useState();
-
-  const completeBtn = () => {
-    let carts = JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    let basicinfo_data = {
-      name: name,
-    };
-
-    carts = [...carts, basicinfo_data];
-    setBasicInfo(basicinfo_data);
-
-    localStorage.setItem("basicInformaion", JSON.stringify(carts));
-
-    console.log(basicInfo);
-
-    // setExpanded(!expanded);
-  };
-
-  const [showInfo, setShowInfo] = useState();
-
-  useEffect(() => {
-    let basicInfoCart =
-      JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    setShowInfo(basicInfoCart);
-  }, []);
-
   const [radio, setRadio] = useState();
 
   const handleChange = (event) => {
@@ -81,6 +51,8 @@ const Skills = () => {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
+
+
             <Grid container spacing={2}>
               <Grid item sm={12}>
                 <TextField
@@ -125,11 +97,12 @@ const Skills = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={completeBtn}
+
               >
                 add more
               </Button>
             </Box>
+            
           </CardContent>
         </Collapse>
       </Card>

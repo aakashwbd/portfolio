@@ -6,8 +6,11 @@ import {
   CardContent,
   CardHeader,
   Collapse,
-
+  Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from "@material-ui/core";
 
@@ -18,6 +21,7 @@ import React from "react";
 import { useState } from "react";
 import { useStyles } from "../Styled";
 import { useEffect } from "react";
+import EducationInput from "./EducationInput";
 
 const Education = () => {
   const classes = useStyles();
@@ -27,36 +31,13 @@ const Education = () => {
     setExpanded(!expanded);
   };
 
-  const [name, setName] = useState();
+  // const [educattionLavel, setEducationLevel] = useState("");
 
-  const [basicInfo, setBasicInfo] = useState();
-
-  const completeBtn = () => {
-    let carts = JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    let basicinfo_data = {
-      name: name,
-    };
-
-    carts = [...carts, basicinfo_data];
-    setBasicInfo(basicinfo_data);
-
-    localStorage.setItem("basicInformaion", JSON.stringify(carts));
-
-    console.log(basicInfo);
-
-    // setExpanded(!expanded);
-  };
-
-  const [showInfo, setShowInfo] = useState();
-
-  useEffect(() => {
-    let basicInfoCart =
-      JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    setShowInfo(basicInfoCart);
-  }, []);
+  // const handleChange = (event) => {
+  //   setEducationLevel(event.target.value);
+  // };
   return (
+    
     <Box>
       <Card elevation={0} className={classes.card}>
         <CardHeader
@@ -71,67 +52,95 @@ const Education = () => {
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Box my={2}>
-              <TextField
-                fullWidth
-                placeholder="Degree Name"
-                InputProps={{ disableUnderline: true }}
-                className={classes.textField}
-                // onChange={(e) => setName(e.target.value)}
-              />
+            <EducationInput/>
+            {/* <Box>
+              <Grid container>
+                <Grid item sm={12}>
+                  <InputLabel id="select">Education Level</InputLabel>
+                  <Select
+                    fullWidth
+                    labelId="select"
+                    id="select"
+                    value={educattionLavel}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={"B.Sc"}>B.Sc</MenuItem>
+                    <MenuItem value={"M.Sc"}>M.Sc</MenuItem>
+                    <MenuItem value={"B.B.A"}>B.B.A</MenuItem>
+                  </Select>
+                </Grid>
+              </Grid>
             </Box>
-            <Box my={2}>
-              <TextField
-                fullWidth
-                placeholder="Course Name"
-                InputProps={{ disableUnderline: true }}
-                className={classes.textField}
-                // onChange={(e) => setName(e.target.value)}
-              />
-            </Box>
-            <Box my={2}>
-              <TextField
-                fullWidth
-                placeholder="Institute Name"
-                InputProps={{ disableUnderline: true }}
-                className={classes.textField}
-                // onChange={(e) => setName(e.target.value)}
-              />
-            </Box>
-            <Box my={2}>
-              <TextField
-                fullWidth
-                placeholder="Duration"
-                InputProps={{ disableUnderline: true }}
-                className={classes.textField}
-                // onChange={(e) => setName(e.target.value)}
-              />
-            </Box>
+            <Box my={3}>
+              <Grid container spacing={2}>
+                <Grid item sm={8}>
+                  <TextField
+                    fullWidth
+                    placeholder="Degree Name"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
+                </Grid>
+                <Grid item sm={4}>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    placeholder="Duration in Year"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
+                </Grid>
+              </Grid>
 
+              <Grid container spacing={2}>
+                <Grid item sm={8}>
+                  <TextField
+                    fullWidth
+                    placeholder="Institute Name"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
+                </Grid>
+                <Grid item sm={4}>
+                  <TextField
+                    fullWidth
+                    placeholder="Grades/CGPA"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
+                </Grid>
+              </Grid> 
+              <Grid container spacing={2}>
+                <Grid item sm={4}>
+                  <TextField
+                    fullWidth
+                    placeholder="Start"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
+                </Grid>
+                <Grid item sm={4}>
+                  <TextField
+                    fullWidth
+                    placeholder="End"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
+                </Grid>
+              </Grid>
+            </Box> */}
             
+
             <Box mt={2} textAlign="right">
-              {/* <Button
-                variant="contained"
-                size="small"
-                className={classes.btnColor}
-                onClick={completeBtn}
-              >
-                complete
-              </Button> */}
               <Button
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={completeBtn}
               >
-                add more
+                Save
               </Button>
             </Box>
           </CardContent>
-
-          {/* <CardContent>
-            <Box>{name}</Box>
-          </CardContent> */}
         </Collapse>
       </Card>
     </Box>

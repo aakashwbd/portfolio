@@ -25,35 +25,7 @@ const Experience = () => {
     setExpanded(!expanded);
   };
 
-  const [name, setName] = useState();
-
-  const [basicInfo, setBasicInfo] = useState();
-
-  const completeBtn = () => {
-    let carts = JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    let basicinfo_data = {
-      name: name,
-    };
-
-    carts = [...carts, basicinfo_data];
-    setBasicInfo(basicinfo_data);
-
-    localStorage.setItem("basicInformaion", JSON.stringify(carts));
-
-    console.log(basicInfo);
-
-    // setExpanded(!expanded);
-  };
-
-  const [showInfo, setShowInfo] = useState();
-
-  useEffect(() => {
-    let basicInfoCart =
-      JSON.parse(localStorage.getItem("basicInformaiton")) || [];
-
-    setShowInfo(basicInfoCart);
-  }, []);
+  
   return (
     <Box>
       <Card elevation={0} className={classes.card}>
@@ -81,10 +53,19 @@ const Experience = () => {
               </Grid>
             </Grid>
             <Grid container spacing={2}>
-              <Grid item sm={12}>
+              <Grid item sm={6}>
                 <TextField
                   fullWidth
                   placeholder="Designation"
+                  InputProps={{ disableUnderline: true }}
+                  className={classes.textField}
+                  // onChange={(e) => setName(e.target.value)}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  placeholder="Location"
                   InputProps={{ disableUnderline: true }}
                   className={classes.textField}
                   // onChange={(e) => setName(e.target.value)}
@@ -121,15 +102,15 @@ const Experience = () => {
                   // onChange={(e) => setName(e.target.value)}
                 />
               </Grid>
-              <Grid item sm={6}>
+              {/* <Grid item sm={6}>
                 <TextField
                   fullWidth
                   placeholder="Projects"
                   InputProps={{ disableUnderline: true }}
                   className={classes.textField}
-                  // onChange={(e) => setName(e.target.value)}
+              
                 />
-              </Grid>
+              </Grid> */}
             </Grid>
 
             <Box mt={2} textAlign="right">
@@ -145,9 +126,9 @@ const Experience = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={completeBtn}
+          
               >
-                add more
+                Save
               </Button>
             </Box>
           </CardContent>
