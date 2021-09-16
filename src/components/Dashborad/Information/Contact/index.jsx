@@ -52,17 +52,21 @@ const Contact = () => {
   };
 
   const [add, setAdd] = useState([""]);
-  const addBtn = (index, value) => {
+  
+  const addBtn = (index) => {
     if (index !== add.length - 1) {
-      let addItems = [...add] ;
-      let formate = addItems.filter((item, i) => i !== index);
+      let addItems = [...add];
+      let formate = addItems.filter((item, i) => i !==  index);
+  
       setAdd(formate);
     } else {
       setAdd((prevState) => [...prevState, ""]);
     }
     console.log(index);
   };
-  console.log(add)
+
+  
+  console.log(add);
   // const phoneChange = ()=> {
 
   // }
@@ -211,14 +215,13 @@ const Contact = () => {
 
               <Grid container>
                 <Grid item sm={6}>
-                <TextField
-                      fullWidth
-                      type='mail'
-                      placeholder="Email"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                   
-                    />
+                  <TextField
+                    fullWidth
+                    type="mail"
+                    placeholder="Email"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -228,13 +231,10 @@ const Contact = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-      
               >
                 Save
               </Button>
             </Box>
-
-           
           </CardContent>
         </Collapse>
       </Card>

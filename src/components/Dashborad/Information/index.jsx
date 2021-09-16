@@ -20,7 +20,7 @@ const Information = () => {
   return (
     <Dashboard>
       <Grid container>
-        <Grid item>
+        <Grid item sm={6}>
           <Box>
             <Photos />
           </Box>

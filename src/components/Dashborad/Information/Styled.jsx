@@ -64,4 +64,13 @@ export const useStyles = makeStyles({
     background:
       "linear-gradient(180deg, #9289F3 0%, rgba(139, 137, 243, 0.81) 100%)",
   },
+
+  name: {
+    fontFamily: 'Poppins',
+    fontWeight: 'bold',
+    fontSize: 20,
+    letterSpacing: '0.1rem',
+  },
+  
+
 });

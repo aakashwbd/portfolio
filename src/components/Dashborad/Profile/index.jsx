@@ -30,6 +30,9 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 import CallOutlinedIcon from "@material-ui/icons/CallOutlined";
 import Photos from "../Information/Photos ";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 const useStyles = makeStyles({
   prfImg: {
     height: 210,
@@ -76,6 +79,24 @@ const Profile = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [show, setShow] = useState();
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/api/auth/me",
+      // data: basic,
+      headers: {
+        Authorization: localStorage.getItem("authToken"),
+      },
+    }).then((res) => {
+      if (res.data.status == "done") {
+        console.log(res.data.data);
+        setShow(res.data.data);
+      }
+    });
+  }, []);
   return (
     <Dashboard>
       <Container maxWidth="md">
@@ -127,8 +148,8 @@ const Profile = () => {
                 </Grid>
 
                 <Grid item sm={4}>
-                  <Typography>Akash Kumar Das</Typography>
-                  <Typography>La-24, Road-01, Merul</Typography>
+                  <Typography>{show?.profile?.name}</Typography>
+                  <Typography>{show?.profile?.name}</Typography>
                 </Grid>
 
                 <Grid item sm={4}>
@@ -153,8 +174,8 @@ const Profile = () => {
             <CardContent>
               <Grid container>
                 <Grid item sm={4}>
-                  <Typography>Blood Group</Typography>
-                  <Typography>Date of Birth</Typography>
+                  <Typography>Blood Group : {show?.profile?.bloodGroup}</Typography>
+                  <Typography>Date of Birth: {show?.profile?.dob}</Typography>
                   <Typography>Maritial Status</Typography>
                   <Typography>Nationality</Typography>
                 </Grid>

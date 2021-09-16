@@ -19,9 +19,10 @@ import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   wrapper: {
+    position: 'fixed',
     height: "100%",
     minHeight: "100vh",
-    width: "100%",
+    width: 265,
     padding: "50px 10px",
     backgroundColor: " #FFFFFF",
     boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.03)",
@@ -83,7 +84,7 @@ const Sidebar = () => {
               <ListItemText primary="Profile" />
             </ListItem>
           </Link>
-          <Link to="/information" className={classes.a}>
+          <Link  to="/information" className={classes.a}>
             <ListItem button className={classes.list}>
               <ListItemIcon>
                 <InfoOutlinedIcon />

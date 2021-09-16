@@ -7,7 +7,7 @@ import React from "react";
 import { DropzoneArea } from 'material-ui-dropzone';
 const useStyles = makeStyles({
   wrapper: {
-    height: '50%',
+    height: "50%",
     width: '50%',
     
   }
