@@ -9,11 +9,15 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
+import { register } from "../../../stores/actions/authActions";
+
+// import axios from "axios";
 const Signup = () => {
-  const history= useHistory()
-  const [register, setRegister] = useState({
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [registerForm, setRegisterForm] = useState({
     username: "",
     email: "",
     password: "",
@@ -21,27 +25,36 @@ const Signup = () => {
   });
 
   const hanldeInput = (e) => {
-    setRegister({ ...register, [e.target.name]: e.target.value });
+    // setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+    setRegisterForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const registerSubmit = (e) => {
     e.preventDefault();
-
+    console.log(registerForm);
     // const data = {
-    //   name: register.name,
-    //   email: register.email,
-    //   password: register.password,
-    //   password_comfirmaiton: register.password_comfirmaiton,
+    //   name: registerForm.name,
+    //   email: registerForm.email,
+    //   password: registerForm.password,
+    //   password_comfirmaiton: registerForm.password_comfirmaiton,
     // };
-
-    axios.post(`http://127.0.0.1:8000/api/auth/register`, register).then((res) => {
-      
-    if (res.data.status === "done") {
-        // localStorage.setItem("authToken", res.data.data.token);
+    dispatch(
+      register(registerForm, () => {
         history.push("/login");
-      }
-   
-    });
+      })
+    );
+
+    // axios.post(`http://127.0.0.1:8000/api/auth/register`, register).then((res) => {
+
+    // if (res.data.status === "done") {
+    //     // localStorage.setItem("authToken", res.data.data.token);
+    //     history.push("/login");
+    //   }
+
+    // });
   };
 
   return (
@@ -58,9 +71,9 @@ const Signup = () => {
                 fullWidth
                 size="small"
                 variant="outlined"
-                placeholder="Name"
+                placeholder="User Name"
                 name="username"
-                value={register.username}
+                value={registerForm.username}
                 onChange={hanldeInput}
               />
             </Box>
@@ -72,7 +85,7 @@ const Signup = () => {
                 variant="outlined"
                 placeholder="Email"
                 name="email"
-                value={register.email}
+                value={registerForm.email}
                 onChange={hanldeInput}
               />
             </Box>
@@ -84,7 +97,7 @@ const Signup = () => {
                 variant="outlined"
                 placeholder="Password"
                 name="password"
-                value={register.password}
+                value={registerForm.password}
                 onChange={hanldeInput}
               />
             </Box>
@@ -96,7 +109,7 @@ const Signup = () => {
                 variant="outlined"
                 placeholder="Confirm Password"
                 name="password_confirmation"
-                value={register.password_confirmation}
+                value={registerForm.password_confirmation}
                 onChange={hanldeInput}
               />
             </Box>

@@ -4,53 +4,60 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Collapse,
   IconButton,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import EditIcon from "@material-ui/icons/Edit";
 
-
-import {useStyles} from '../Styled'
-import axios from "axios";
-
+import { useStyles } from "../Styled";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
 
 const About = () => {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState();
-  const handleClick = () => {
-    setExpanded(!expanded);
+
+  const { currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const [aboutForm, setAboutForm] = useState({
+    aboutDescripton: "",
+  });
+
+  const handleInput = (e) => {
+    setAboutForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const [about, setAbout] = useState({
-    description: ''
-  })
-  const handelInput = (e) => {
-    setAbout({...about, [e.target.name]: e.target.value})
-  }
-  const aboutBtn = (e) => {
+  const [showForm, setShowForm] = useState();
+
+  const submitBtn = (e) => {
     e.preventDefault();
 
-    axios
-    .post(`http://127.0.0.1:8000/api/information/about`, about)
-    .then((res) => {});
+    dispatch(updateProfile(aboutForm));
+    setShowForm(!showForm);
   };
+
+  const handleClickEdit = (e) => {
+    setShowForm(!showForm);
+    
+    setAboutForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   return (
     <Box>
-      <Card elevation={0} className={classes.card}>
-        <CardHeader className={classes.cardTitle}
-          title="About Me"
-          action={
-            <IconButton onClick={handleClick} className={classes.cardIcon}>
-              {!expanded ? <AddCircleOutlineIcon /> : <HighlightOffIcon />}
-            </IconButton>
-          }
-        />
+      {showForm && (
+        <Card elevation={0} className={classes.card}>
+          <CardHeader title="About Me" />
 
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Box>
               <TextField
@@ -60,9 +67,9 @@ const About = () => {
                 className={classes.textField}
                 multiline
                 minRows="6"
-                onChange={handelInput}
-                name='description'
-                value={about.description}
+                onChange={handleInput}
+                name="aboutDescripton"
+                value={aboutForm.aboutDescripton}
               />
             </Box>
 
@@ -71,14 +78,31 @@ const About = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={aboutBtn}
+                onClick={submitBtn}
               >
                 save
               </Button>
             </Box>
           </CardContent>
-        </Collapse>
-      </Card>
+        </Card>
+      )}
+      {!showForm && (
+        <Card>
+          <CardHeader
+            title="About Me"
+            action={
+              <IconButton onClick={handleClickEdit}>
+                <EditIcon />
+              </IconButton>
+            }
+          />
+          <CardContent>
+            <Typography variant="body">
+              {currentUser?.profile?.aboutDescripton}
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
     </Box>
   );
 };

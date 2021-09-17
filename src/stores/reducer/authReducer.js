@@ -1,5 +1,5 @@
 import { ActionTypes } from "../constants/action-type";
-import * as types from "./../types";
+// import * as types from "./../types";
 
 const initialState = {
     token: null,
@@ -25,24 +25,24 @@ const authReducer = (state = initialState, action) => {
                 isAuthenticate: action.payload.isAuthenticate,
                 currentUser: action.payload.currentUser,
             };
-        case types.SET_USER:
+        case ActionTypes.SET_USER:
             return {
                 ...state,
                 token: action.payload.token,
                 isAuthenticate: action.payload.isAuthenticate,
                 currentUser: action.payload.currentUser,
             };
-        // case types.REGISTER:
-        //     return {
-        //         ...state,
-        //         registered: action.payload,
-        //     };
+        case ActionTypes.REGISTER:
+            return {
+                ...state,
+                registered: action.payload,
+            };
         // case types.RESET_REGISTER:
         //     return {
         //         ...state,
         //         registered: action.payload,
         //     };
-        case types.LOGOUT:
+        case ActionTypes.LOGOUT:
             return {
                 ...state,
                 token: null,

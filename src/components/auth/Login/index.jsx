@@ -12,39 +12,38 @@ import {
 
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import axios from "axios";
 
+import { useDispatch } from "react-redux";
+import { login } from "../../../stores/actions/authActions";
 const Login = () => {
-  const history = useHistory()
-  
-  const [login, setLogin] = useState({
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
   });
 
   const handleInput = (e) => {
-    setLogin({ ...login, [e.target.name]: e.target.value });
+    setLoginForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const loginSubmit = (e) => {
-    // e.preventDefault();
-
     const data = {
-      email: login.email,
-      password: login.password,
+      email: loginForm.email,
+      password: loginForm.password,
     };
-
-    axios.post(`http://127.0.0.1:8000/api/auth/login`, data).then((res) => {
-      console.log(res);
-
-      if (res.data.status === "done") {
-        localStorage.setItem("authToken", res.data.data.token);
+    console.log(data);
+    dispatch(
+      login(data, () => {
         history.push("/dashboard");
-      }
-    });
+      })
+    );
   };
 
-  
   return (
     <Box mt={5}>
       <Container maxWidth="sm">
@@ -57,13 +56,13 @@ const Login = () => {
             <Box my={3}>
               <TextField
                 fullWidth
-                type='email'
+                type="email"
                 size="small"
                 variant="outlined"
                 placeholder="Email"
                 name="email"
                 onChange={handleInput}
-                value={login.email}
+                value={loginForm.email}
               />
             </Box>
             <Box my={3}>
@@ -73,9 +72,9 @@ const Login = () => {
                 variant="outlined"
                 placeholder="Password"
                 name="password"
-                type='password'
+                type="password"
                 onChange={handleInput}
-                value={login.password}
+                value={loginForm.password}
               />
             </Box>
             <Box my={3}>

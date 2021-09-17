@@ -26,6 +26,9 @@ export const useStyles = makeStyles({
 const Landing = () => {
   const classes = useStyles();
   const [color, setColor] = useState("");
+
+
+  
   return (
     <Box className={classes.wrapper} style={{ backgroundColor: color }}>
       <Navbar />

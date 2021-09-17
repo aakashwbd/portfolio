@@ -13,7 +13,17 @@ import DashboardHome from "./components/Dashborad/DashboardHome";
 import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchMe } from "./stores/actions/authActions";
+
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchMe());
+  }, [dispatch]);
+
+  
   return (
     <div>
       <CssBaseline />

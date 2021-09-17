@@ -15,7 +15,15 @@ import { tmpOneHero } from "../../../../constant/_icon";
 
 import { useStyle } from "./style";
 
+// import { useDispatch } from "react-redux";
+// import { updateProfile } from "../../../../stores/actions/authActions";
+// import { useSelector } from "react-redux";
+
 const Profile = () => {
+
+  // const { currentUser } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+  
   const [specailize, setSpecialize] = useState([]);
   useEffect(() => {
     let specatilizationCarts = JSON.parse(localStorage.getItem("specailizationItem")) || [];

@@ -16,11 +16,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { logo } from "../../../constant/_icon";
 import { useStyled } from "./styled";
 import NavList from "./NavList";
-// import Signup from "../Account/Signup";
-
 import CloseIcon from "@material-ui/icons/Close";
 import { Link, useHistory } from "react-router-dom";
-// import Signup from "../../Account/Signup";
 
 const Navbar = () => {
   const [appScroll, setAppScroll] = useState(false);

@@ -14,28 +14,28 @@ import {
   TextField,
   Typography,
   MenuItem,
-  InputLabel,
   Select,
+  InputLabel,
 } from "@material-ui/core";
 
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import React, { useEffect } from "react";
+
 import { useState } from "react";
 import { useStyles } from "../Styled";
 
 import EditIcon from "@material-ui/icons/Edit";
 
-import axios from "axios";
 import BasicInput from "./BasicInput";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
+import { useSelector } from "react-redux";
 
 const Basic = () => {
+  const { currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const [bloodData, setBloodData] = useState("o+");
-  
-  const handleChange = (event) => {
-    setBloodData(event.target.value);
-  };
   const classes = useStyles();
 
   const [expanded, setExpanded] = useState();
@@ -58,91 +58,115 @@ const Basic = () => {
     setBasic({ ...basic, [e.target.name]: e.target.value });
   };
 
-  const [fieldShow, setFieldShow] = useState();
-
   const basicSubmit = (e) => {
     e.preventDefault();
 
-    setFieldShow(!fieldShow);
-
-    axios({
-      method: "patch",
-      url: "http://127.0.0.1:8000/api/auth/update",
-      data: basic,
-      headers: {
-        Authorization: localStorage.getItem("authToken"),
-      },
-    }).then((res) => {});
+    dispatch(updateProfile(basic));
+    setShowForm(!showForm);
   };
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+  const handleEditOpen = () => {
+    setShowForm(!showForm);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [showForm, setShowForm] = useState();
 
-  const [show, setShow] = useState();
-
-  useEffect(() => {
-    axios({
-      method: "get",
-      url: "http://127.0.0.1:8000/api/auth/me",
-      data: basic,
-      headers: {
-        Authorization: localStorage.getItem("authToken"),
-      },
-    }).then((res) => {
-      if (res.data.status == "done") {
-        console.log(res.data.data);
-        setShow(res.data.data);
-      }
-    });
-  }, []);
-
-  // console.log()
+  console.log(basic);
 
   return (
     <Box>
-      <Card elevation={0} className={classes.card}>
-        <CardHeader
-          className={classes.cardTitle}
-          title="Basic Information"
-          action={
-            <IconButton onClick={handleClick} className={classes.cardIcon}>
-              {!expanded ? <AddCircleOutlineIcon /> : <HighlightOffIcon />}
-            </IconButton>
-          }
-        />
+      {showForm && (
+        <Card elevation={0} className={classes.card}>
+          <CardHeader title="Basic Information" />
 
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            {/* <BasicInput /> */}
-            {!fieldShow && (
-              <Box>
-               
-                <Grid
-                  container
-                  spacing={1}
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Grid item sm={12}>
-                    <TextField
-                      fullWidth
-                      placeholder="Name"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      onChange={handleInput}
-                      name="name"
-                      value={basic.name}
-                    />
-                  </Grid>
+            <Box>
+              <Grid
+                container
+                spacing={1}
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid item sm={12}>
+                  <TextField
+                    fullWidth
+                    placeholder="Name"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                    onChange={handleInput}
+                    name="name"
+                    value={basic.name}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid
+                container
+                spacing={1}
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid item sm={6}>
+                  <TextField
+                    fullWidth
+                    placeholder="Nationality"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                    onChange={handleInput}
+                    name="nationality"
+                    value={basic.nationality}
+                  />
                 </Grid>
 
+                <Grid item sm={6}>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    placeholder="NID No"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                    onChange={handleInput}
+                    name="nid"
+                    value={basic.nid}
+                  />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={1}>
+                <Grid item sm={6}>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    placeholder="Birth Certificate No"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                    onChange={handleInput}
+                    name="birthCertificate"
+                    value={basic.birthCertificate}
+                  />
+                </Grid>
+
+                <Grid item sm={6}>
+                  <TextField
+                    fullWidth
+                    type="number"
+                    placeholder="Passport No"
+                    InputProps={{ disableUnderline: true }}
+                    className={classes.textField}
+                    onChange={handleInput}
+                    name="passport"
+                    value={basic.passport}
+                  />
+                </Grid>
+              </Grid>
+
+              <Box my={2}>
                 <Grid
                   container
                   spacing={1}
@@ -150,175 +174,150 @@ const Basic = () => {
                   alignItems="center"
                 >
                   <Grid item sm={6}>
-                    <TextField
-                    variant='outlined'
-                      type="date"
-                      fullWidth
-                      label="Date of Birth"
-                      InputLabelProps={{
-                        shrink: true,
-                       
-                      }}
-                      onChange={handleInput}
-                      name="dob"
-                      value={basic.dob}
-                    />
-                  </Grid>
-                  <Grid item sm={6}>
-                 
-
-                    {/* <InputLabel id="select">Blood Group</InputLabel> */}
+                    <InputLabel id="selct">Maritial Status</InputLabel>
                     <Select
                       fullWidth
                       labelId="select"
-                      label='Blood Group'
+                      label="Blood Group"
                       id="select"
-                      value={bloodData}
+                      name="maritialStatus"
+                      value={basic.maritialStatus}
                       disableUnderline
-                      onChange={handleChange}
-                      // className={classes.textField}
+                      onChange={handleInput}
                     >
-                      <MenuItem value={"blood Group"}>blood Group</MenuItem>
+                      <MenuItem value={"Married"}>Married</MenuItem>
+                      <MenuItem value={"Single"}>Single</MenuItem>
+                      <MenuItem value={"Divorce"}>Divorce</MenuItem>
+                    </Select>
+                  </Grid>
+
+                  <Grid item sm={6}>
+                    <InputLabel id="selct">Blood Group</InputLabel>
+                    <Select
+                      fullWidth
+                      labelId="select"
+                      label="Blood Group"
+                      id="select"
+                      name="bloodGroup"
+                      value={basic.bloodGroup}
+                      disableUnderline
+                      onChange={handleInput}
+                    >
+                      <MenuItem value={"A+"}>A+</MenuItem>
+                      <MenuItem value={"A-"}>A-</MenuItem>
+                      <MenuItem value={"B+"}>B+</MenuItem>
+                      <MenuItem value={"B-"}>B-</MenuItem>
+                      <MenuItem value={"AB+"}>AB+</MenuItem>
+                      <MenuItem value={"AB-"}>AB-</MenuItem>
                       <MenuItem value={"O+"}>O+</MenuItem>
                       <MenuItem value={"O-"}>O-</MenuItem>
-                    
                     </Select>
                   </Grid>
                 </Grid>
-                <Grid
-                  container
-                  spacing={1}
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Maritial Status"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      onChange={handleInput}
-                      name="maritialStatus"
-                      value={basic.maritialStatus}
-                    />
-                  </Grid>
-
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Nationality"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      onChange={handleInput}
-                      name="nationality"
-                      value={basic.nationality}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={1}>
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      type="number"
-                      placeholder="NID No"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      onChange={handleInput}
-                      name="nid"
-                      value={basic.nid}
-                    />
-                  </Grid>
-                  <Grid item sm={6}>
-                    <TextField
-                      type="number"
-                      fullWidth
-                      placeholder="Birth Certificate No"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      onChange={handleInput}
-                      name="birthCertificate"
-                      value={basic.birthCertificate}
-                    />
-                  </Grid>
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      type="number"
-                      placeholder="Passport No"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      onChange={handleInput}
-                      name="passport"
-                      value={basic.passport}
-                    />
-                  </Grid>
-                </Grid>
               </Box>
-            )}
+              <Grid container>
+                <Grid item sm={6}>
+                  <TextField
+                    // variant="outlined"
+                    type="date"
+                    fullWidth
+                    label="Date of Birth"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={handleInput}
+                    name="dob"
+                    value={basic.dob}
+                  />
+                </Grid>
+              </Grid>
 
-            <Box mt={2} textAlign="right">
-              <Button
-                variant="contained"
-                size="small"
-                className={classes.btnColor}
-                onClick={basicSubmit}
-              >
-                Save
-              </Button>
+              <Box mt={2} textAlign="right">
+                <Button
+                  variant="contained"
+                  size="small"
+                  className={classes.btnColor}
+                  onClick={basicSubmit}
+                >
+                  Save
+                </Button>
+              </Box>
             </Box>
           </CardContent>
-          {fieldShow && (
-            <Box>
-              <CardHeader
-                action={
-                  <IconButton onClick={handleClickOpen}>
-                    <EditIcon />
-                  </IconButton>
-                }
-              />
+          {/* </Collapse> */}
+        </Card>
+      )}
+      <Card>
+        {!showForm && (
+          <Box>
+            <CardHeader
+              title="Basic Information"
+              action={
+                <IconButton onClick={handleEditOpen}>
+                  <EditIcon />
+                </IconButton>
+              }
+            />
+            {/* 
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Update</DialogTitle>
+              <DialogContent>
+                <BasicInput />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} color="secondary">
+                  Cancel
+                </Button>
+                <Button onClick={handleClose} color="primary">
+                  Update
+                </Button>
+              </DialogActions>
+            </Dialog> */}
 
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="form-dialog-title"
-              >
-                <DialogTitle id="form-dialog-title">Update</DialogTitle>
-                <DialogContent>
-                  <BasicInput />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose} color="secondary">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleClose} color="primary">
-                    Update
-                  </Button>
-                </DialogActions>
-              </Dialog>
+            <CardContent>
+              <Grid container>
+                <Grid item>
+                  <Typography variant="h5">
+                    {currentUser?.profile?.name}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container>
+                <Grid item sm={6}>
+                  <Typography variant="subtitle1">
+                    Blood Group: {currentUser?.profile?.bloodGroup}
+                  </Typography>
 
-              <CardContent>
-                <Typography className={classes.name}>
-                  {show?.profile?.name}
-                </Typography>
-                <Typography>
-                  Blood Group:{show?.profile?.bloodGroup}{" "}
-                </Typography>
-                <Typography>Dob:{show?.profile?.dob} </Typography>
-                <Typography>
-                  Maritial Status:{show?.profile?.maritialStatus}{" "}
-                </Typography>
-                <Typography>
-                  Nationality: {show?.profile?.nationality}
-                </Typography>
-                <Typography>NID: {show?.profile?.nid}</Typography>
-                <Typography>
-                  Birth Reg No:{show?.profile?.birthCertificate}{" "}
-                </Typography>
-                <Typography>Passport:{show?.profile?.passport} </Typography>
-              </CardContent>
-            </Box>
-          )}
-        </Collapse>
+                  <Typography variant="subtitle1">
+                    DoB: {currentUser?.profile?.dob}{" "}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Maritial Status: {currentUser?.profile?.maritialStatus}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Nationality: {currentUser?.profile?.nationality}
+                  </Typography>
+                </Grid>
+
+                <Grid item sm={6}>
+                  <Typography variant="subtitle1">
+                    NID: {currentUser?.profile?.nid}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Birth Reg No:{currentUser?.profile?.birthCertificate}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    Passport:{currentUser?.profile?.passport}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Box>
+        )}
       </Card>
     </Box>
   );

@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core";
-import { BorderBottom } from "@material-ui/icons";
 
 export const useStyles = makeStyles({
   wrapper: {
@@ -16,7 +15,6 @@ export const useStyles = makeStyles({
     justifyContent: "center",
     textAlign: "center",
     background: "transparent",
-    textAlign: "center",
 
     "&:hover": {
       backgroundColor: " rgba(0, 0, 0, 0.4)",

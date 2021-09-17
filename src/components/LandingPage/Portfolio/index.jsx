@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { one, three, two } from "../../../constant/_icon";
-import Portait from "../../shared/Portait";
 const useStyles = makeStyles({
   wrapper: {
     marginTop: 100,

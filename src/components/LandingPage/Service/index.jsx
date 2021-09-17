@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -8,7 +7,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { shadow } from "../../../constant/_icon";
 
 import _info from "../../../constant/_info";
 import Portait from "../../shared/Portait";

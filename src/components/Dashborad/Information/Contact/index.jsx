@@ -20,7 +20,8 @@ import React from "react";
 import { useState } from "react";
 import { useStyles } from "../Styled";
 import { useEffect } from "react";
-import { Close } from "@material-ui/icons";
+import { ClassRounded, Close } from "@material-ui/icons";
+import EditIcon from "@material-ui/icons/Edit";
 
 const address_data = [
   {
@@ -31,33 +32,54 @@ const address_data = [
     value: "Permanent",
     label: "Permanent",
   },
-  {
-    value: "Street",
-    label: "Street",
-  },
+  // {
+  //   value: "Street",
+  //   label: "Street",
+  // },
 ];
 
 const Contact = () => {
   const classes = useStyles();
 
-  const [expanded, setExpanded] = useState();
-  const handleClick = () => {
-    setExpanded(!expanded);
-  };
+  // const [expanded, setExpanded] = useState();
+  // const handleClick = () => {
+  //   setExpanded(!expanded);
+  // };
 
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState([
+    {
+      present: {
+        holdingNo: "",
+        roadNo: "",
+        cityNo: "",
+        zipNo: "",
+      },
+    },
+    {
+      permanent: {
+        village: "",
+        postOffice: "",
+        policeStation: "",
+        district: "",
+      },
+    },
+    {
+      phone: "",
+    },
+  ]);
 
   const handleChange = (event) => {
     setAddress(event.target.value);
   };
 
+  // phone add field
   const [add, setAdd] = useState([""]);
-  
+
   const addBtn = (index) => {
     if (index !== add.length - 1) {
       let addItems = [...add];
-      let formate = addItems.filter((item, i) => i !==  index);
-  
+      let formate = addItems.filter((item, i) => i !== index);
+
       setAdd(formate);
     } else {
       setAdd((prevState) => [...prevState, ""]);
@@ -65,36 +87,36 @@ const Contact = () => {
     console.log(index);
   };
 
-  
-  console.log(add);
-  // const phoneChange = ()=> {
+  // show form & submit form
+  const [showForm, setShowForm] = useState();
+  const SubmitBtn = (e) => {
+    e.preventDefault();
 
-  // }
+    // dispatch(updateProfile(aboutForm));
+
+    setShowForm(!showForm);
+  };
+  const EditBtn = () => {
+    setShowForm(!showForm);
+  };
+  const addDataBtn = () => {
+    setShowForm(!showForm);
+  };
+
   return (
     <Box>
-      <Card elevation={0} className={classes.card}>
-        <CardHeader
-          className={classes.cardTitle}
-          title="Contact Information"
-          action={
-            <IconButton onClick={handleClick} className={classes.cardIcon}>
-              {!expanded ? <AddCircleOutlineIcon /> : <HighlightOffIcon />}
-            </IconButton>
-          }
-        />
-
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+      {showForm && (
+        <Card elevation={0} className={classes.card}>
+          <CardHeader title="Contact Information" />
           <CardContent>
             <Box>
               <TextField
                 id="standard-select-currency"
                 select
                 fullWidth
-                label="Select"
+                label="Please select your address"
                 value={address}
                 onChange={handleChange}
-                // className={classes.textField}
-                helperText="Please select your address"
               >
                 {address_data.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -231,13 +253,36 @@ const Contact = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
+                onClick={SubmitBtn}
               >
                 Save
               </Button>
             </Box>
           </CardContent>
-        </Collapse>
-      </Card>
+          {/* </Collapse> */}
+        </Card>
+      )}
+      {!showForm && (
+        <Card>
+          <CardHeader
+            title="Contact Information"
+            action={
+              <IconButton onClick={EditBtn}>
+                <EditIcon />
+              </IconButton>
+            }
+          />
+          <CardContent>
+            <Button
+              variant="contained"
+              className={classes.btnColor}
+              onClick={addDataBtn}
+            >
+              Add
+            </Button>
+          </CardContent>
+        </Card>
+      )}
     </Box>
   );
 };

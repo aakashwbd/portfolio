@@ -24,8 +24,22 @@ const Summary = () => {
     setExpanded(!expanded);
   };
 
-  const completeBtn = () => {
-    setExpanded(!expanded);
+  const [summaryForm, setSummaryForm] = useState({
+    aboutDescripton: "",
+  });
+ 
+  const handleInput = (e) => {
+    setSummaryForm((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+
+  const submitBtn = (e) => {
+    e.preventDefault();
+    
+   
   };
   return (
     <Box>
@@ -49,6 +63,9 @@ const Summary = () => {
                 className={classes.textField}
                 multiline
                 minRows="6"
+                name="aboutDescripton"
+                value={summaryForm.aboutDescripton}
+                onChange={handleInput}
               />
             </Box>
 
@@ -57,9 +74,9 @@ const Summary = () => {
                 variant="contained"
                 size="small"
                 className={classes.btnColor}
-                onClick={completeBtn}
+                onClick={submitBtn}
               >
-                Complete
+                save
               </Button>
             </Box>
           </CardContent>

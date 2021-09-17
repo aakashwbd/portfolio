@@ -1,8 +1,7 @@
-import { Box, Container, Grid } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import React from "react";
 
 import Contact from "./Contact";
-import Specialization from "./Specialization";
 import Dashboard from "../../../layouts/Dashboard";
 import Basic from "./Basic";
 import Photos from "./Photos ";
@@ -16,7 +15,9 @@ import Awards from "./Awards";
 import Certificates from "./Certificates";
 import Referrence from "./Referrence";
 
+
 const Information = () => {
+
   return (
     <Dashboard>
       <Grid container>
@@ -29,27 +30,27 @@ const Information = () => {
       <Grid container spacing={2}>
         <Grid item sm={6}>
           <Grid>
-            <Box my={2}>
+            <Box mt={1}>
               <Basic />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <About />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Contact />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Education />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Experience />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Trainings />
             </Box>
           </Grid>
@@ -57,87 +58,27 @@ const Information = () => {
 
         <Grid item sm={6}>
           <Grid>
-            <Box mt={2}>
+            <Box mt={1}>
               <Summary />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Skills />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Awards />
             </Box>
 
-            <Box mt={2}>
+            <Box mt={1}>
               <Certificates />
             </Box>
-            <Box mt={2}>
+            <Box mt={1}>
               <Referrence />
             </Box>
           </Grid>
         </Grid>
       </Grid>
-      {/* <Box>
-        <Grid container spacing={2} justifyContent="space-between">
-          <Grid item sm={5}>
-            <Photos />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} justifyContent="space-between">
-          <Grid item sm={5}>
-            <Basic />
-          </Grid>
-          <Grid item sm={5}>
-            <Trainings />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} justifyContent="space-between">
-          <Grid item sm={5}>
-            <About />
-          </Grid>
-          <Grid item sm={5}>
-            <Contact />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} justifyContent="space-between">
-          <Grid item sm={5}>
-            <Education />
-          </Grid>
-          <Grid item sm={5}>
-            <Experience />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2}>
-          <Grid item sm={5}>
-            <Summary />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item sm={5}>
-            <Skills />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item sm={5}>
-            <Awards />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item sm={5}>
-            <Certificates />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2}>
-          <Grid item sm={5}>
-            <Referrence />
-          </Grid>
-        </Grid>
-      </Box> */}
     </Dashboard>
   );
 };
