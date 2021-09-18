@@ -39,7 +39,7 @@ const Login = () => {
     console.log(data);
     dispatch(
       login(data, () => {
-        history.push("/dashboard");
+        history.push("/dashboard/information");
       })
     );
   };

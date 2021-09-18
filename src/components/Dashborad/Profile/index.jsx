@@ -33,6 +33,7 @@ import Photos from "../Information/Photos ";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import ProfileInformation from "./ProfileInformation";
 const useStyles = makeStyles({
   prfImg: {
     height: 210,
@@ -99,7 +100,8 @@ const Profile = () => {
   }, []);
   return (
     <Dashboard>
-      <Container maxWidth="md">
+      <ProfileInformation/>
+      {/* <Container maxWidth="md">
         <Box my={3}>
           <Card>
             <CardHeader
@@ -247,7 +249,7 @@ const Profile = () => {
             </CardContent>
           </Card>
         </Box>
-      </Container>
+      </Container> */}
     </Dashboard>
   );
 };

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -6,321 +7,368 @@ import {
   CardHeader,
   Collapse,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
   Grid,
   IconButton,
-  TextField,
-  Typography,
+  InputLabel,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
   MenuItem,
   Select,
-  InputLabel,
+  TextField,
+  Typography,
 } from "@material-ui/core";
+import React from "react";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import CakeIcon from "@material-ui/icons/Cake";
+import PhoneIcon from "@material-ui/icons/Phone";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
+import { useStyles } from "../Styled";
+import { Autocomplete } from "@material-ui/lab";
 
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-import React, { useEffect } from "react";
 
-import { useState } from "react";
-import { useStyles } from "../Styled";
+// dami data
+const bloodGroup_data = [
+  {
+    title: "A+",
+  },
+  {
+    title: "A-",
+  },
+  {
+    title: "B+",
+  },
+  {
+    title: "B-",
+  },
+  {
+    title: "AB+",
+  },
+  {
+    title: "AB-",
+  },
+  {
+    title: "O+",
+  },
+  {
+    title: "O-",
+  },
+];
+const maritialStatus_data = [
+  {
+    title: "Single",
+  },
+  {
+    title: "Married",
+  },
+  {
+    title: "Divorce",
+  },
+  {
+    title: "Others",
+  },
+];
 
-import EditIcon from "@material-ui/icons/Edit";
-
-import BasicInput from "./BasicInput";
-import { useDispatch } from "react-redux";
-import { updateProfile } from "../../../../stores/actions/authActions";
-import { useSelector } from "react-redux";
-
-const Basic = () => {
-  const { currentUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-
+const ProfileInformation = () => {
+  // style
   const classes = useStyles();
 
-  const [expanded, setExpanded] = useState();
-  const handleClick = () => {
-    setExpanded(!expanded);
-  };
+  // store dispatch
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
 
-  const [basic, setBasic] = useState({
+  // profile input data state
+  const [profileForm, setProfileForm] = useState({
     name: "",
     dob: "",
-    bloodGroup: "",
+    bloodGroup: null,
     maritialStatus: "",
     nationality: "",
     nid: "",
     birthCertificate: "",
     passport: "",
   });
-
-  const handleInput = (e) => {
-    setBasic({ ...basic, [e.target.name]: e.target.value });
+  const profileFormInput = (e) => {
+    setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
   };
 
-  const basicSubmit = (e) => {
-    e.preventDefault();
-
-    dispatch(updateProfile(basic));
-    setShowForm(!showForm);
+  const onChangeBloodGroup = (data) => {
+    setProfileForm({ ...profileForm, bloodGroup: data });
+  }; 
+  
+  const onChangeMatialStatus = (data) => {
+    setProfileForm({ ...profileForm, maritialStatus: data });
   };
 
-  // const [open, setOpen] = useState(false);
+  const profileFormSubmit = () => {
+    // e.preventDefault();
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+    dispatch(updateProfile(profileForm));
 
-  const handleEditOpen = () => {
-    setShowForm(!showForm);
+    setDialog(false);
   };
 
-  const [showForm, setShowForm] = useState();
+  // dialog open and close
+  const [dialog, setDialog] = useState(false);
 
-  console.log(basic);
+  const handleDialog = () => {
+    setDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialog(false);
+  };
+
+  // collapse
+  const [expanded, setExpanded] = useState();
+  const handleExpandedClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
-    <Box>
-      {showForm && (
-        <Card elevation={0} className={classes.card}>
-          <CardHeader title="Basic Information" />
+    <Card elevation={0} className={classes.card}>
+      <CardHeader
+        className={classes.cardTitle}
+        title="Basic Information"
+        action={
+          <IconButton
+            onClick={handleExpandedClick}
+            className={classes.cardIcon}
+          >
+            {!expanded ? <AddCircleOutlineIcon /> : <HighlightOffIcon />}
+          </IconButton>
+        }
+      />
 
-          <CardContent>
-            <Box>
-              <Grid
-                container
-                spacing={1}
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid item sm={12}>
-                  <TextField
-                    fullWidth
-                    placeholder="Name"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={handleInput}
-                    name="name"
-                    value={basic.name}
-                  />
-                </Grid>
-              </Grid>
+      <Dialog
+        maxWidth="sm"
+        fullWidth
+        open={dialog}
+        onClose={handleDialogClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Basic Information</DialogTitle>
 
-              <Grid
-                container
-                spacing={1}
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    placeholder="Nationality"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={handleInput}
-                    name="nationality"
-                    value={basic.nationality}
-                  />
-                </Grid>
-
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    placeholder="NID No"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={handleInput}
-                    name="nid"
-                    value={basic.nid}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={1}>
-                <Grid item sm={6}>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    placeholder="Birth Certificate No"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={handleInput}
-                    name="birthCertificate"
-                    value={basic.birthCertificate}
-                  />
-                </Grid>
-
-                <Grid item sm={6}>
-                  <TextField
-                    fullWidth
-                    type="number"
-                    placeholder="Passport No"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
-                    onChange={handleInput}
-                    name="passport"
-                    value={basic.passport}
-                  />
-                </Grid>
-              </Grid>
-
-              <Box my={2}>
-                <Grid
-                  container
-                  spacing={1}
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Grid item sm={6}>
-                    <InputLabel id="selct">Maritial Status</InputLabel>
-                    <Select
-                      fullWidth
-                      labelId="select"
-                      label="Blood Group"
-                      id="select"
-                      name="maritialStatus"
-                      value={basic.maritialStatus}
-                      disableUnderline
-                      onChange={handleInput}
-                    >
-                      <MenuItem value={"Married"}>Married</MenuItem>
-                      <MenuItem value={"Single"}>Single</MenuItem>
-                      <MenuItem value={"Divorce"}>Divorce</MenuItem>
-                    </Select>
-                  </Grid>
-
-                  <Grid item sm={6}>
-                    <InputLabel id="selct">Blood Group</InputLabel>
-                    <Select
-                      fullWidth
-                      labelId="select"
-                      label="Blood Group"
-                      id="select"
-                      name="bloodGroup"
-                      value={basic.bloodGroup}
-                      disableUnderline
-                      onChange={handleInput}
-                    >
-                      <MenuItem value={"A+"}>A+</MenuItem>
-                      <MenuItem value={"A-"}>A-</MenuItem>
-                      <MenuItem value={"B+"}>B+</MenuItem>
-                      <MenuItem value={"B-"}>B-</MenuItem>
-                      <MenuItem value={"AB+"}>AB+</MenuItem>
-                      <MenuItem value={"AB-"}>AB-</MenuItem>
-                      <MenuItem value={"O+"}>O+</MenuItem>
-                      <MenuItem value={"O-"}>O-</MenuItem>
-                    </Select>
-                  </Grid>
-                </Grid>
-              </Box>
-              <Grid container>
-                <Grid item sm={6}>
-                  <TextField
-                    // variant="outlined"
-                    type="date"
-                    fullWidth
-                    label="Date of Birth"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={handleInput}
-                    name="dob"
-                    value={basic.dob}
-                  />
-                </Grid>
-              </Grid>
-
-              <Box mt={2} textAlign="right">
-                <Button
-                  variant="contained"
-                  size="small"
-                  className={classes.btnColor}
-                  onClick={basicSubmit}
-                >
-                  Save
-                </Button>
-              </Box>
-            </Box>
-          </CardContent>
-          {/* </Collapse> */}
-        </Card>
-      )}
-      <Card>
-        {!showForm && (
-          <Box>
-            <CardHeader
-              title="Basic Information"
-              action={
-                <IconButton onClick={handleEditOpen}>
-                  <EditIcon />
-                </IconButton>
-              }
+        <DialogContent>
+          <Box mt={2}>
+            <TextField
+              variant="outlined"
+              label="Full Name"
+              fullWidth
+              onChange={profileFormInput}
+              name="name"
+              value={profileForm.name}
             />
-            {/* 
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Update</DialogTitle>
-              <DialogContent>
-                <BasicInput />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="secondary">
-                  Cancel
-                </Button>
-                <Button onClick={handleClose} color="primary">
-                  Update
-                </Button>
-              </DialogActions>
-            </Dialog> */}
+          </Box>
 
-            <CardContent>
-              <Grid container>
-                <Grid item>
-                  <Typography variant="h5">
+          <Box mt={2}>
+            <TextField
+              InputLabelProps={{
+                shrink: true,
+              }}
+              type="date"
+              variant="outlined"
+              label="Date of Birth"
+              onChange={profileFormInput}
+              name="dob"
+              value={profileForm.dob}
+              fullWidth
+            />
+          </Box>
+
+          <Box mt={2}>
+            <Autocomplete
+              id="bloodGroup"
+              fullWidth
+              // value={profileForm.bloodGroup || []}
+              onChange={(e, newValue) =>{onChangeBloodGroup(newValue)}}
+              options={bloodGroup_data}
+              getOptionLabel={(option) => option.title}
+              renderInput={(params) => (
+                <TextField {...params} label="Blood Group" variant="outlined" />
+              )}
+            />
+          </Box>
+
+          <Box mt={2}>
+            {/* <TextField
+              variant="outlined"
+              label="Maritial Status"
+              fullWidth
+              onChange={profileFormInput}
+              name="maritialStatus"
+              value={profileForm.maritialStatus}
+            /> */}
+            <Autocomplete
+              id="maritialStatus"
+              fullWidth
+              // value={profileForm.bloodGroup || []}
+              onChange={(e, newValue) =>{onChangeMatialStatus(newValue)}}
+              options={maritialStatus_data}
+              getOptionLabel={(option) => option.title}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Maritial Status"
+                  variant="outlined"
+                />
+              )}
+            />
+          </Box>
+
+          <Box mt={2}>
+            <TextField
+              variant="outlined"
+              label="Nationality"
+              fullWidth
+              onChange={profileFormInput}
+              name="nationality"
+              value={profileForm.nationality}
+            />
+          </Box>
+          <Box mt={2}>
+            <TextField
+              type="number"
+              variant="outlined"
+              label="NID No"
+              fullWidth
+              onChange={profileFormInput}
+              name="nid"
+              value={profileForm.nid}
+            />
+          </Box>
+          <Box mt={2}>
+            <TextField
+              variant="outlined"
+              label="Birth Registration No"
+              type="number"
+              fullWidth
+              onChange={profileFormInput}
+              name="birthCertificate"
+              value={profileForm.birthCertificate}
+            />
+          </Box>
+
+          <Box mt={2}>
+            <TextField
+              type="number"
+              variant="outlined"
+              label="Passport No"
+              fullWidth
+              onChange={profileFormInput}
+              name="passport"
+              value={profileForm.passport}
+            />
+          </Box>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={profileFormSubmit} color="primary">
+            update
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          {/* <CardHeader
+            action={
+              <IconButton onClick={handleDialog}>
+                <EditOutlinedIcon />
+              </IconButton>
+            }
+          /> */}
+          <Grid container>
+            <Grid item sm={6}>
+              <ListItem>
+                <ListItemText className={classes.showListName}>
+                  {/* <Typography component="span" >full name: </Typography> */}
+                  <Typography className={classes.showListName}>
                     {currentUser?.profile?.name}
                   </Typography>
-                </Grid>
-              </Grid>
-              <Grid container>
-                <Grid item sm={6}>
-                  <Typography variant="subtitle1">
-                    Blood Group: {currentUser?.profile?.bloodGroup}
-                  </Typography>
+                </ListItemText>
+              </ListItem>
 
-                  <Typography variant="subtitle1">
-                    DoB: {currentUser?.profile?.dob}{" "}
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">Date of Birth: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.dob}
                   </Typography>
-                  <Typography variant="subtitle1">
-                    Maritial Status: {currentUser?.profile?.maritialStatus}
-                  </Typography>
-                  <Typography variant="subtitle1">
-                    Nationality: {currentUser?.profile?.nationality}
-                  </Typography>
-                </Grid>
+                </ListItemText>
+              </ListItem>
 
-                <Grid item sm={6}>
-                  <Typography variant="subtitle1">
-                    NID: {currentUser?.profile?.nid}
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">Nationality: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.nationality}
                   </Typography>
-                  <Typography variant="subtitle1">
-                    Birth Reg No:{currentUser?.profile?.birthCertificate}
+                </ListItemText>
+              </ListItem>
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">Matial Status: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.maritialStatus?.title}
                   </Typography>
-                  <Typography variant="subtitle1">
-                    Passport:{currentUser?.profile?.passport}
+                </ListItemText>
+              </ListItem>
+            </Grid>
+            <Grid item sm={6}>
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">Blood Group: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.bloodGroup?.title}
                   </Typography>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Box>
-        )}
-      </Card>
-    </Box>
+                </ListItemText>
+              </ListItem>
+
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">NID No: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.nid}
+                  </Typography>
+                </ListItemText>
+              </ListItem>
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">Birth Reg No: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.birthCertificate}
+                  </Typography>
+                </ListItemText>
+              </ListItem>
+              <ListItem>
+                <ListItemText>
+                  <Typography component="span">Passport No: </Typography>
+                  <Typography component="span">
+                    {currentUser?.profile?.passport}
+                  </Typography>
+                </ListItemText>
+              </ListItem>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Collapse>
+    </Card>
   );
 };
 
-export default Basic;
+export default ProfileInformation;

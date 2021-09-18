@@ -24,7 +24,7 @@ export const useStyles = makeStyles({
     color: "rgba(0, 0, 0, 0.3)",
   },
   cardTitle: {
-    padding: '5px 16px',
+    padding: "5px 16px",
     "& .MuiTypography-root": {
       fontFamily: "Montserrat",
       fontSize: 18,
@@ -32,22 +32,21 @@ export const useStyles = makeStyles({
     },
   },
   card: {
-   
     // height: 50,
     borderRadius: 10,
     boxShadow: " 5px 5px 10px rgba(0, 0, 0, 0.03)",
   },
   cardIcon: {
-    position: 'relative',
+    position: "relative",
     top: 4,
-    right: 0
+    right: 0,
   },
   textField: {
     background: "#FFFFFF",
     border: "1px solid #E5E5E5",
     padding: "5px 10px",
     borderRadius: 8,
-  }, 
+  },
   dob: {
     // height: 40,
     // width: "100%",
@@ -65,12 +64,12 @@ export const useStyles = makeStyles({
       "linear-gradient(180deg, #9289F3 0%, rgba(139, 137, 243, 0.81) 100%)",
   },
 
-  name: {
-    fontFamily: 'Poppins',
-    fontWeight: 'bold',
-    fontSize: 20,
-    letterSpacing: '0.1rem',
-  },
   
+  showListName:{
+    fontWeight: 'bold',
+    textTransform: 'capitalize',
+    fontSize: 16,
+    fontFamily: "Poppins",
 
+  } 
 });

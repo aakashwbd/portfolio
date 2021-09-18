@@ -5,284 +5,305 @@ import {
   CardContent,
   CardHeader,
   Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   TextField,
   Typography,
 } from "@material-ui/core";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import PhoneIcon from "@material-ui/icons/Phone";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import HomeIcon from "@material-ui/icons/Home";
 import React from "react";
 import { useState } from "react";
 import { useStyles } from "../Styled";
 import { useEffect } from "react";
 import { ClassRounded, Close } from "@material-ui/icons";
 import EditIcon from "@material-ui/icons/Edit";
-
-const address_data = [
+import { Autocomplete } from "@material-ui/lab";
+import { useSelector } from "react-redux";
+// auto field data
+const division_data = [
   {
-    value: "Present",
-    label: "Present",
+    title: "Dhaka",
   },
   {
-    value: "Permanent",
-    label: "Permanent",
+    title: "Rajshahi",
   },
-  // {
-  //   value: "Street",
-  //   label: "Street",
-  // },
 ];
-
+const addressLabel_data = [
+  {
+    title: "Present",
+  },
+  {
+    title: "Parmanent",
+  },
+];
+const district_data = [
+  {
+    title: "Manikganj",
+  },
+  {
+    title: "Dhaka",
+  },
+];
+const emailLabel_data = [
+  {
+    title: "Private",
+  },
+  {
+    title: "Work",
+  },
+];
 const Contact = () => {
   const classes = useStyles();
 
-  // const [expanded, setExpanded] = useState();
-  // const handleClick = () => {
-  //   setExpanded(!expanded);
-  // };
+  // redux current user
+  const { currentUser } = useSelector((state) => state.auth);
 
-  const [address, setAddress] = useState([
-    {
-      present: {
-        holdingNo: "",
-        roadNo: "",
-        cityNo: "",
-        zipNo: "",
-      },
-    },
-    {
-      permanent: {
-        village: "",
-        postOffice: "",
-        policeStation: "",
-        district: "",
-      },
-    },
-    {
-      phone: "",
-    },
-  ]);
-
-  const handleChange = (event) => {
-    setAddress(event.target.value);
+  // collapse
+  const [expanded, setExpanded] = useState();
+  const handleExpandedClick = () => {
+    setExpanded(!expanded);
   };
 
-  // phone add field
-  const [add, setAdd] = useState([""]);
+  // dialog open and close
+  const [dialog, setDialog] = useState(false);
+  const handleDialog = () => {
+    setDialog(true);
+  };
+  const handleDialogClose = () => {
+    setDialog(false);
+  };
 
-  const addBtn = (index) => {
-    if (index !== add.length - 1) {
-      let addItems = [...add];
+  // add phone number field
+  const [addPhoneField, setAddPhoneFiled] = useState([""]);
+
+  const addPhoneBtn = (index) => {
+    if (index !== addPhoneField.length - 1) {
+      let addItems = [...addPhoneField];
       let formate = addItems.filter((item, i) => i !== index);
 
-      setAdd(formate);
+      setAddPhoneFiled(formate);
     } else {
-      setAdd((prevState) => [...prevState, ""]);
+      setAddPhoneFiled((prevState) => [...prevState, ""]);
     }
-    console.log(index);
   };
+  // contact form data and submit
+  const [contactForm, setContactForm] = useState({
+    addressLabel: "",
+    streetAddress: "",
+    division: "",
+    district: "",
+    phone: [],
+    email: [],
+  });
 
-  // show form & submit form
-  const [showForm, setShowForm] = useState();
-  const SubmitBtn = (e) => {
-    e.preventDefault();
-
-    // dispatch(updateProfile(aboutForm));
-
-    setShowForm(!showForm);
+  const contactFormInput = (e) => {
+    // setContactForm({ ...contactForm, [e.target.name]: e.target.value });
   };
-  const EditBtn = () => {
-    setShowForm(!showForm);
-  };
-  const addDataBtn = () => {
-    setShowForm(!showForm);
+  const contactFormSubmit = () => {
+    // dispatch(updateProfile(contactForm));
   };
 
   return (
     <Box>
-      {showForm && (
-        <Card elevation={0} className={classes.card}>
-          <CardHeader title="Contact Information" />
-          <CardContent>
-            <Box>
-              <TextField
-                id="standard-select-currency"
-                select
+      <Card elevation={0} className={classes.card}>
+        <CardHeader
+          className={classes.cardTitle}
+          title="Contact Information"
+          action={
+            <IconButton
+              onClick={handleExpandedClick}
+              className={classes.cardIcon}
+            >
+              {!expanded ? <AddCircleOutlineIcon /> : <HighlightOffIcon />}
+            </IconButton>
+          }
+        />
+
+        <Dialog
+          maxWidth="sm"
+          fullWidth
+          open={dialog}
+          onClose={handleDialogClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Contact Information</DialogTitle>
+
+          <DialogContent>
+            <Box mt={2}>
+              <Autocomplete
+                id="Address"
                 fullWidth
-                label="Please select your address"
-                value={address}
-                onChange={handleChange}
-              >
-                {address_data.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+                options={addressLabel_data}
+                getOptionLabel={(option) => option.title}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select Your Address"
+                    variant="outlined"
+                  />
+                )}
+              />
+
+              <Box mt={2}>
+                <TextField
+                  variant="outlined"
+                  label="Street Address"
+                  fullWidth
+                  // onChange={profileFormInput}
+                  // name="name"
+                  // value={profileForm.name}
+                />
+              </Box>
+
+              <Box mt={2}>
+                <Autocomplete
+                  id="division"
+                  fullWidth
+                  options={division_data}
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Division"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </Box>
+
+              <Box mt={2}>
+                <Autocomplete
+                  id="district"
+                  fullWidth
+                  options={district_data}
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="District"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </Box>
             </Box>
 
-            {address === "Present" && (
-              <Box mt={2}>
-                <Grid container spacing={1}>
-                  <Grid item sm={3}>
-                    <TextField
-                      fullWidth
-                      placeholder="Holding No"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
+            <Box mt={2}>
+              {addPhoneField.map((item, i) => (
+                <Box mt={2}>
+                  <Grid container alignItems="center" key={i}>
+                    <Grid item sm={10}>
+                      <TextField
+                        type="number"
+                        fullWidth
+                        variant="outlined"
+                        label="Phone No"
+                      />
+                    </Grid>
+                    <Grid item sm={2}>
+                      <IconButton onClick={() => addPhoneBtn(i, item)}>
+                        {i !== addPhoneField.length - 1 ? (
+                          <Close />
+                        ) : (
+                          <AddCircleOutlineIcon />
+                        )}
+                      </IconButton>
+                    </Grid>
                   </Grid>
-                  <Grid item sm={3}>
-                    <TextField
-                      fullWidth
-                      placeholder="Road No"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                  <Grid item sm={3}>
-                    <TextField
-                      fullWidth
-                      placeholder="city"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                  <Grid item sm={3}>
-                    <TextField
-                      fullWidth
-                      placeholder="Zip Code"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            )}
-
-            {address === "Permanent" && (
-              <Box mt={2}>
-                <Grid container spacing={1}>
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Village"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="P.O"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={1}>
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="P.S"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                  <Grid item sm={6}>
-                    <TextField
-                      fullWidth
-                      placeholder="Dist"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            )}
-
-            <Box mt={3}>
-              <Typography>Phone No</Typography>
-              {add.map((item, i) => (
-                <Grid container key={i}>
-                  <Grid item sm={8}>
-                    <TextField
-                      fullWidth
-                      placeholder="Phone"
-                      InputProps={{ disableUnderline: true }}
-                      className={classes.textField}
-                      // onChange={phoneChange}
-                    />
-                  </Grid>
-                  <Grid item sm={2}>
-                    <IconButton onClick={() => addBtn(i, item)}>
-                      {i !== add.length - 1 ? (
-                        <Close />
-                      ) : (
-                        <AddCircleOutlineIcon />
-                      )}
-                    </IconButton>
-                  </Grid>
-                </Grid>
+                </Box>
               ))}
             </Box>
 
             <Box mt={2}>
-              <Typography>E-mail</Typography>
-
-              <Grid container>
-                <Grid item sm={6}>
+              {/* <Autocomplete
+                id="emailLabel"
+                fullWidth
+                options={emailLabel_data}
+                getOptionLabel={(option) => option.title}
+                renderInput={(params) => (
                   <TextField
-                    fullWidth
-                    type="mail"
-                    placeholder="Email"
-                    InputProps={{ disableUnderline: true }}
-                    className={classes.textField}
+                    {...params}
+                    label="Add Another Mail"
+                    variant="outlined"
                   />
-                </Grid>
-              </Grid>
+                )}
+              /> */}
+              <TextField
+                fullWidth
+                variant="outlined"
+                label="Add Another Mail"
+              />
             </Box>
+          </DialogContent>
 
-            <Box mt={2} textAlign="right">
-              <Button
-                variant="contained"
-                size="small"
-                className={classes.btnColor}
-                onClick={SubmitBtn}
-              >
-                Save
-              </Button>
-            </Box>
-          </CardContent>
-          {/* </Collapse> */}
-        </Card>
-      )}
-      {!showForm && (
-        <Card>
-          <CardHeader
-            title="Contact Information"
-            action={
-              <IconButton onClick={EditBtn}>
-                <EditIcon />
-              </IconButton>
-            }
-          />
-          <CardContent>
-            <Button
-              variant="contained"
-              className={classes.btnColor}
-              onClick={addDataBtn}
-            >
-              Add
+          <DialogActions>
+            <Button onClick={handleDialogClose} color="primary">
+              Cancel
             </Button>
+            <Button
+              // onClick={profileFormSubmit}
+              color="primary"
+            >
+              update
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <CardHeader
+              action={
+                <IconButton onClick={handleDialog}>
+                  <EditOutlinedIcon />
+                </IconButton>
+              }
+            />
+            <Grid container>
+              <Grid item sm={6}>
+                <ListItem>
+                  <ListItemIcon>
+                    <MailOutlineIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={currentUser?.email} />
+                </ListItem>
+
+                <ListItem>
+                  <ListItemIcon>
+                    <PhoneIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="phone"
+                    // primary={currentUser?.profile?.dob}
+                  />
+                </ListItem>
+
+                <ListItem>
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="address"
+                    // primary={currentUser?.profile?.dob}
+                  />
+                </ListItem>
+              </Grid>
+            </Grid>
           </CardContent>
-        </Card>
-      )}
+        </Collapse>
+      </Card>
     </Box>
   );
 };

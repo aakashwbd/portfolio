@@ -35,7 +35,7 @@ const Information = () => {
             </Box>
 
             <Box mt={1}>
-              <About />
+              {/* <About /> */}
             </Box>
 
             <Box mt={1}>

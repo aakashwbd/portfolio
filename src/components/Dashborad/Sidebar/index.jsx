@@ -19,7 +19,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   wrapper: {
-    position: 'fixed',
+    position: "fixed",
     height: "100%",
     minHeight: "100vh",
     width: 265,
@@ -51,32 +51,14 @@ const Sidebar = () => {
     setOpen(!open);
   };
 
-  // const history = useHistory()
-
-  // const link = ()=>{
-  //   history.push('/dashboardhome')
-  // }
   return (
     <Box className={classes.wrapper}>
       <List>
         <Box>
-        <Link to="/dashboardhome" className={classes.a}>
-          <ListItem button className={classes.list}>
-            <ListItemIcon>
-              <Home />
-            </ListItemIcon>
-            <ListItemText primary='Dashboard'/>
-           
-          
-          
-          </ListItem>
-          </Link>
-        </Box>
-        <Box my={5}>
           <ListItem>
             <ListItemText secondary="User" />
           </ListItem>
-          <Link to="/profile" className={classes.a}>
+          <Link to="/dashboard/information" className={classes.a}>
             <ListItem button className={classes.list}>
               <ListItemIcon>
                 <PermIdentityOutlinedIcon />
@@ -84,17 +66,9 @@ const Sidebar = () => {
               <ListItemText primary="Profile" />
             </ListItem>
           </Link>
-          <Link  to="/information" className={classes.a}>
-            <ListItem button className={classes.list}>
-              <ListItemIcon>
-                <InfoOutlinedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Information" />
-            </ListItem>
-          </Link>
         </Box>
 
-        <Box mb={5}>
+        <Box>
           <ListItem button onClick={handleClick}>
             <ListItemText secondary="Saved" />
           </ListItem>
@@ -129,7 +103,7 @@ const Sidebar = () => {
           </Collapse>
         </Box>
 
-        <Box>
+        {/* <Box>
           <ListItem>
             <ListItemText secondary="Others" />
           </ListItem>
@@ -145,7 +119,7 @@ const Sidebar = () => {
             </ListItemIcon>
             <ListItemText primary="Email" />
           </ListItem>
-        </Box>
+        </Box> */}
       </List>
     </Box>
   );

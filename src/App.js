@@ -33,10 +33,10 @@ const App = () => {
           <Route path="/signup" exact component={Signup} />
           <Route path="/login" exact component={Login} />
 
-          <Route path="/dashboard" exact component={Dashboard} />
+          <Route path="/dashboard/information" exact component={Information} />
           <Route path="/dashboardhome" exact component={DashboardHome} />
-          <Route path="/information" exact component={Information} />
-          <Route path="/profile" exact component={Profile} />
+          {/* <Route path="/information" exact component={Information} /> */}
+          {/* <Route path="/profile" exact component={Profile} /> */}
 
           <Route path="/template1" exact component={TemplateOne} />
           <Route path="/template2" exact component={TemplateTwo} />

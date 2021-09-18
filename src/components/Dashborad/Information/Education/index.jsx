@@ -6,12 +6,14 @@ import {
   CardContent,
   CardHeader,
   Collapse,
+  Dialog,
   Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@material-ui/core";
 
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -23,6 +25,8 @@ import { useStyles } from "../Styled";
 import { useEffect } from "react";
 import EducationInput from "./EducationInput";
 
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+
 const Education = () => {
   const classes = useStyles();
 
@@ -31,11 +35,10 @@ const Education = () => {
     setExpanded(!expanded);
   };
 
-  // const [educattionLavel, setEducationLevel] = useState("");
-
-  // const handleChange = (event) => {
-  //   setEducationLevel(event.target.value);
-  // };
+  // edit education btn 
+  const editEducationBtn =()=>{
+    
+  }
   return (
     <Box>
       <Card elevation={0} className={classes.card}>
@@ -48,10 +51,27 @@ const Education = () => {
             </IconButton>
           }
         />
+        {/* <Dialog>
+  
+</Dialog> */}
 
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <EducationInput />
+            <CardHeader
+              action={
+                <IconButton onClick={editEducationBtn}>
+                  <EditOutlinedIcon />
+                </IconButton>
+              }
+            />
+            <Grid container alignItems="center" justifyContent="center">
+              <Grid item sm={10}>
+                <Typography>Bachelor of Science</Typography>
+                <Typography>Computer Scince</Typography>
+                <Typography>2010-2011</Typography>
+              </Grid>
+            </Grid>
+            {/* <EducationInput />
 
             <Box mt={2} textAlign="right">
               <Button
@@ -61,7 +81,7 @@ const Education = () => {
               >
                 Save
               </Button>
-            </Box>
+            </Box> */}
           </CardContent>
         </Collapse>
       </Card>
