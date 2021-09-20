@@ -5,6 +5,8 @@ import TopBar from "../../components/Dashborad/TopBar";
 
 const useStyles = makeStyles({
   bg: {
+    height: "100%",
+    width: "100%",
     background: "#f5f5f5",
   },
   
@@ -20,9 +22,9 @@ const Dashboard = ({ children }) => {
         </Grid>
         <Grid item sm={10} className={classes.bg}>
           <Container maxWidth="xl">
-            <Box my={2}>
+            {/* <Box my={2}>
               <TopBar />
-            </Box>
+            </Box> */}
           </Container>
 
           <Container maxWidth="xl">
