@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, Card, CardContent, Container } from "@material-ui/core";
+import { Box, Card, Container } from "@material-ui/core";
 import ProfileInformation from "./ProfileInformation";
 
 import Dashboard from "../../../layouts/Dashboard";

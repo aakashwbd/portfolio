@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Container,
   Grid,
@@ -19,10 +18,12 @@ const Education = () => {
         </Typography>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item sm={3}>
-            <Typography className={classes.sclName}>University of Pinkston</Typography>
+            <Typography className={classes.sclName}>
+              University of Pinkston
+            </Typography>
             <List>
               <ListItem>
-                <ListItemText  primary="Wrote dissertation on Advertising for Millennials" />
+                <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
               </ListItem>
               <ListItem>
                 <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
@@ -33,7 +34,7 @@ const Education = () => {
             </List>
           </Grid>
           <Grid item sm={3}>
-          <Typography>University of Pinkston</Typography>
+            <Typography>University of Pinkston</Typography>
             <List>
               <ListItem>
                 <ListItemText primary="Wrote dissertation on Advertising for Millennials" />

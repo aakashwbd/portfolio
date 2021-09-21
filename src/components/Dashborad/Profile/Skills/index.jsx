@@ -8,12 +8,8 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   TextField,
   Typography,
-  InputAdornment,
   Table,
   TableHead,
   TableRow,
@@ -23,13 +19,13 @@ import {
   Avatar,
 } from "@material-ui/core";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "../Styled";
 import EditIcon from "@material-ui/icons/Edit";
-import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import CloseIcon from "@material-ui/icons/Close";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { Autocomplete } from "@material-ui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
 const skills_data = [
   {
     title: "node",
@@ -56,6 +52,8 @@ const skills_lavel = [
   },
 ];
 const Skills = () => {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
   // use material ui
   const classes = useStyles();
 
@@ -68,12 +66,63 @@ const Skills = () => {
     setDialogBox(false);
   };
 
-  // handleClickOtherSkill
-  // const [otherSkill, setOtherSkill] = useState(false);
+  // skill form
+  const [skillForm, setSkillForm] = useState([
+    {
+      skillName: "",
+      year: "",
+      competency: "",
+    },
+  ]);
 
-  // const handleClickOtherSkill = () => {
-  //   setOtherSkill(true)
+  // const skillInputValue = (e) => {
+  //   setSkillForm({ ...skillForm, [e.target.name]: e.target.value });
   // };
+
+  const skillFormSubmit = () => {
+    dispatch(updateProfile(skillForm));
+    setDialogBox(false);
+  };
+
+  const fieldChangeHandler = (field, index, value) => {
+    let skills = [...skillForm];
+
+    skills.forEach((item, i) => {
+      if (i === index) {
+        item[field] = value;
+      }
+    });
+
+    setSkillForm((prevState) => skills);
+  };
+
+  useEffect(() => {
+    if (skillForm && skillForm.length) {
+      let skillLength = skillForm.length;
+
+      let skill = {
+        skillName: "",
+        year: "",
+        competency: "",
+      };
+
+      let status = false;
+      Object.keys(skillForm[skillLength - 1]).forEach((key) => {
+        if (skillForm[skillLength - 1][key] !== "") {
+          status = true;
+        } else {
+          status = false;
+        }
+      });
+
+      if (status) {
+        setSkillForm((prevState) => [...prevState, skill]);
+      }
+    }
+  }, [skillForm]);
+
+  console.log(skillForm);
+
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -98,7 +147,8 @@ const Skills = () => {
                 <Typography
                   style={{ fontFamily: "Gordita", fontWeight: "bold" }}
                 >
-                  Begineer
+                  {/* Begineer */}
+                  {/* {currentUser?.profile?.skillForm.competency} */}
                 </Typography>
               </Grid>
               <Grid item sm={6}>
@@ -149,53 +199,6 @@ const Skills = () => {
         <DialogContent>
           <Box>
             <Box>
-              <Typography
-                variant="caption"
-                color="textPrimary"
-                style={{ fontFamily: "Gordita" }}
-              >
-                Select All That Apply
-              </Typography>
-              <Box className={classes.showChipBox} mt={2} mb={3}>
-                <Box mr={2}>
-                  <Chip
-                    size="medium"
-                    label="React"
-                    clickable
-                    className={classes.showChip}
-                  />
-                </Box>
-                <Box mr={2}>
-                  <Chip label="Larvel" clickable className={classes.showChip} />
-                </Box>
-                <Box mr={2}>
-                  <Chip
-                    label="Node JS"
-                    clickable
-                    className={classes.showChip}
-                  />
-                </Box>
-                <Box mr={2}>
-                  <Chip label="React" clickable className={classes.showChip} />
-                </Box>
-                <Box mr={2}>
-                  <Chip label="React" clickable className={classes.showChip} />
-                </Box>
-              </Box>
-            </Box>
-            <Box my={2}>
-              <Button
-                style={{
-                  textTransform: "capitalize",
-                  borderRadius: 20,
-                  background: "#F5F5F5",
-                }}
-                // onClick={handleClickOtherSkill}
-              >
-                other (please specify)
-              </Button>
-            </Box>
-            <Box>
               <Typography style={{ fontFamily: "Gordita", fontSize: 14 }}>
                 Add your skills, years of experience and how competent you are
                 with each of them.
@@ -235,92 +238,49 @@ const Skills = () => {
                 </TableHead>
 
                 <TableBody>
-                  <TableRow>
-                    <TableCell>
-                      <Autocomplete
-                        size="small"
-                        fullWidth
-                        // onChange={(e, newValue) => {
-                        //   onChangeMatialStatus(newValue);
-                        // }}
-                        options={skills_data}
-                        getOptionLabel={(option) => option.title}
-                        renderInput={(params) => (
-                          <TextField {...params} variant="outlined" />
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        fullWidth
-                        type="number"
-                        size="small"
-                        variant="outlined"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Autocomplete
-                        size="small"
-                        fullWidth
-                        // onChange={(e, newValue) => {
-                        //   onChangeMatialStatus(newValue);
-                        // }}
-                        options={skills_lavel}
-                        getOptionLabel={(option) => option.title}
-                        renderInput={(params) => (
-                          <TextField {...params} variant="outlined" />
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell className={classes.tblLastRow}>
-                      <Box className={classes.tblLastRowData}>
-                        <Typography>Required</Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Autocomplete
-                        size="small"
-                        fullWidth
-                        // onChange={(e, newValue) => {
-                        //   onChangeMatialStatus(newValue);
-                        // }}
-                        options={skills_data}
-                        getOptionLabel={(option) => option.title}
-                        renderInput={(params) => (
-                          <TextField {...params} variant="outlined" />
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        fullWidth
-                        type="number"
-                        size="small"
-                        variant="outlined"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Autocomplete
-                        size="small"
-                        fullWidth
-                        // onChange={(e, newValue) => {
-                        //   onChangeMatialStatus(newValue);
-                        // }}
-                        options={skills_lavel}
-                        getOptionLabel={(option) => option.title}
-                        renderInput={(params) => (
-                          <TextField {...params} variant="outlined" />
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell className={classes.tblLastRow}>
-                      <Box className={classes.tblLastRowData}>
-                        <Typography>Required</Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
+                  {skillForm.map((item, i) => (
+                    <TableRow key={i}>
+                      <TableCell>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          name="skillName"
+                          value={item.skillName}
+                          onChange={(e) =>
+                            fieldChangeHandler("skillName", i, e.target.value)
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          fullWidth
+                          type="number"
+                          size="small"
+                          variant="outlined"
+                          name="year"
+                          value={item.year}
+                          onChange={(e) =>
+                            fieldChangeHandler("year", i, e.target.value)
+                          }
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Autocomplete
+                          size="small"
+                          fullWidth
+                          value={item.competency}
+                          options={skills_lavel}
+                          onChange={(e, data) =>
+                            fieldChangeHandler("competency", i, data)
+                          }
+                          getOptionLabel={(option) => option.title}
+                          renderInput={(params) => (
+                            <TextField {...params} variant="outlined" />
+                          )}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
             </Box>
@@ -328,9 +288,11 @@ const Skills = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickDialogClose} variant="outlined">
-            Cancle
+            Cancel
           </Button>
-          <Button variant="outlined">Save</Button>
+          <Button variant="outlined" onClick={skillFormSubmit}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -6,16 +6,13 @@ import {
   ListItemIcon,
   ListItemText,
   makeStyles,
-  Typography,
 } from "@material-ui/core";
-import { ExpandLess, ExpandMore, Home } from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
-import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
-import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -102,24 +99,6 @@ const Sidebar = () => {
             </List>
           </Collapse>
         </Box>
-
-        {/* <Box>
-          <ListItem>
-            <ListItemText secondary="Others" />
-          </ListItem>
-          <ListItem button className={classes.list}>
-            <ListItemIcon>
-              <ChatBubbleOutlineOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Chat" />
-          </ListItem>
-          <ListItem button className={classes.list}>
-            <ListItemIcon>
-              <EmailOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText primary="Email" />
-          </ListItem>
-        </Box> */}
       </List>
     </Box>
   );

@@ -1,7 +1,13 @@
 import { Avatar, Box, Container, Grid, Typography } from "@material-ui/core";
 import React from "react";
-import { amazon, google, hero1, logitech, slack } from "../../../constant/_icon";
-import Portait from "../../shared/Portait";
+import {
+  amazon,
+  google,
+  hero1,
+  logitech,
+  slack,
+} from "../../../constant/_icon";
+
 import { useStyles } from "./styled";
 
 // import FacebookIcon from "@material-ui/icons/Facebook";

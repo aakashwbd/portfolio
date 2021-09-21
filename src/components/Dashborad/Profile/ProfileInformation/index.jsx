@@ -14,7 +14,6 @@ import {
   ListItemText,
   TextField,
   Typography,
-  TextareaAutosize,
   Tooltip,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
@@ -29,6 +28,10 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CloseIcon from "@material-ui/icons/Close";
 
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
+import { useEffect } from "react";
+
 // country
 const country_data = [
   {
@@ -37,9 +40,15 @@ const country_data = [
   {
     title: "India",
   },
+  {
+    title: "Pakistan",
+  },
+  {
+    title: "Sri Lanka",
+  },
 ];
 const ProfileInformation = () => {
-  // use material ui
+  // use material ui style
   const classes = useStyles();
 
   //   dialog box open and close
@@ -50,25 +59,55 @@ const ProfileInformation = () => {
   const handleClickDialogClose = () => {
     setDialogBox(false);
   };
-  // input form data
-  // const [profileForm, setProfileForm] = useState();
 
-  // add phone filed
-  // const [phoneFiled, setPhoneFiled] = useState();
+  // profile data input
+  const [profileForm, setProfileForm] = useState({
+    firstName: "",
+    lastName: "",
+    countries: null,
+    summary: "",
+    githubUserName: "",
+    linkedinUserName: "",
+    phones: [""],
+  });
 
-  // adding phone button
-  // const addPhoneBtn = (index) => {
-  //   if (index !== phoneFiled.length - 1) {
-  //     let addItems = [...phoneFiled];
-  //     let formate = addItems.filter((item, i) => i !== index);
+  const profileFormInput = (e) => {
+    setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
+  };
 
-  //     setPhoneFiled(formate);
-  //   } else {
-  //     setPhoneFiled((prevState) => [...prevState, ""]);
-  //   }
-  // };
+  const profileFormSubmit = () => {
+    dispatch(updateProfile(profileForm));
+    setDialogBox(false);
+  };
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
+  console.log(currentUser);
+  // form edit click data show
+  useEffect(() => {
+    if (currentUser && currentUser.profile) {
+      setProfileForm(currentUser.profile);
+    }
+  }, [currentUser]);
+  // on change country data
+  const onChangeCountry = (data) => {
+    setProfileForm({ ...profileForm, countries: data });
+  };
 
-  // upload image funciton
+  // adding phone field
+  const [phoneField, setPhoneField] = useState([""]);
+
+  const phoneBtn = (index) => {
+    if (index !== phoneField.length - 1) {
+      let addItems = [...phoneField];
+      let formate = addItems.filter((item, i) => i !== index);
+      setPhoneField(formate);
+    } else {
+      setPhoneField((prevState) => [...prevState, ""]);
+    }
+  };
+
+  console.log(phoneField);
+
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -82,10 +121,11 @@ const ProfileInformation = () => {
 
               <ListItemText>
                 <Typography className={classes.profileName}>
-                  Akash Kumar Das
+                  {currentUser?.profile?.firstName}{" "}
+                  {currentUser?.profile?.lastName}
                 </Typography>
                 <Typography className={classes.profileCountry}>
-                  Bangladesh
+                  {currentUser?.profile?.countries?.title}
                 </Typography>
               </ListItemText>
             </ListItem>
@@ -99,33 +139,17 @@ const ProfileInformation = () => {
             </Box>
           </Grid>
         </Grid>
-        {/* 
-        <Grid container>
-          <Grid item sm={8}> */}
+
         <Box p={2}>
           <Typography className={classes.aboutMe}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            nostrum odio quasi perferendis vel deserunt autem vitae quo amet
-            voluptatum ad dolorem deleniti eius adipisci veritatis perspiciatis
-            totam explicabo, tempora at accusantium officiis vero. Quibusdam
-            magni veritatis qui, aut architecto laboriosam distinctio.
-            Voluptatum quidem provident maiores, nisi est incidunt, sequi
-            deserunt natus harum, temporibus quasi fuga ullam placeat. Molestiae
-            repellat recusandae eveniet sequi deserunt culpa saepe suscipit
-            doloribus officia quae at atque magnam numquam asperiores vero aut
-            ex architecto vitae itaque veniam, beatae aliquam voluptatem
-            doloremque totam. Itaque reprehenderit, explicabo eaque possimus
-            maiores eos laborum quae dolore tempora enim illum!
+            {currentUser?.profile?.summary}
           </Typography>
         </Box>
-
-        {/* </Grid>
-        </Grid> */}
 
         <Grid
           container
           alignItems="center"
-          spacing={3}
+          spacing={1}
           justifyContent="space-between"
         >
           <Grid item sm={3}>
@@ -133,31 +157,37 @@ const ProfileInformation = () => {
               <ListItemIcon className={classes.listIcon}>
                 <EmailIcon size="small" />
               </ListItemIcon>
-              <ListItemText  primary="aakash@gmail.com" />
+              <ListItemText primary={currentUser?.email} />
             </ListItem>
           </Grid>
 
           <Grid item sm={3}>
             <ListItem>
               <ListItemIcon className={classes.listIcon}>
-                <PhoneIcon  size="small" />
+                <PhoneIcon size="small" />
               </ListItemIcon>
-              <ListItemText primary="01880876280" />
+              <ListItemText primary={currentUser?.profile?.phones} />
             </ListItem>
           </Grid>
 
-          <Grid item sm={4}>
+          <Grid item sm={3}>
             <Grid container>
-              <Grid item sm={4}>
-                <Box textAlign="right">
-                  <Tooltip title="linkedin username" placement="top">
+              <Grid item sm={3}>
+                <Box textAlign="center">
+                  <Tooltip
+                    title={currentUser?.profile?.linkedinUserName}
+                    placement="top"
+                  >
                     <LinkedInIcon />
                   </Tooltip>
                 </Box>
               </Grid>
-              <Grid item sm={4}>
+              <Grid item sm={3}>
                 <Box textAlign="right">
-                  <Tooltip title="Github username" placement="top">
+                  <Tooltip
+                    title={currentUser?.profile?.githubUserName}
+                    placement="top"
+                  >
                     <GitHubIcon />
                   </Tooltip>
                 </Box>
@@ -218,6 +248,9 @@ const ProfileInformation = () => {
                   label="First Name"
                   required
                   fullWidth
+                  name="firstName"
+                  value={profileForm.firstName}
+                  onChange={profileFormInput}
                 />
               </Grid>
 
@@ -227,6 +260,9 @@ const ProfileInformation = () => {
                   label="Last Name"
                   required
                   fullWidth
+                  name="lastName"
+                  value={profileForm.lastName}
+                  onChange={profileFormInput}
                 />
               </Grid>
             </Grid>
@@ -237,6 +273,10 @@ const ProfileInformation = () => {
               id="country"
               fullWidth
               options={country_data}
+              value={profileForm.countries}
+              onChange={(e, newValue) => {
+                onChangeCountry(newValue);
+              }}
               getOptionLabel={(option) => option.title}
               renderInput={(params) => (
                 <TextField
@@ -256,48 +296,51 @@ const ProfileInformation = () => {
               minRows="6"
               multiline
               label="Summary About Yourself"
+              name="summary"
+              value={profileForm.summary}
+              onChange={profileFormInput}
             />
           </Box>
 
-          {/* <Box mt={2}>
-            {phoneFiled.map((item, i) => (
-              <Grid container alignItems="center" spacing={1} key={i}>
-                <Grid item sm={8}>
-                  <TextField
-                    variant="outlined"
-                    fullWidth
-                    label="Phone"
-                    required
-                  />
-                </Grid>
-                <Grid item sm={2}>
-                  <IconButton onClick={() => addPhoneBtn(i, item)}>
-                    {i !== phoneFiled.length - 1 ? (
-                      <CloseIcon />
-                    ) : (
-                      <AddCircleOutlineIcon />
-                    )}
-                  </IconButton>
-                </Grid>
-              </Grid>
-            ))}
-          </Box>  */}
           <Box mt={2}>
-            <Grid container alignItems="center" spacing={1}>
-              <Grid item sm={8}>
-                <TextField
-                  variant="outlined"
-                  fullWidth
-                  label="Phone"
-                  required
-                />
-              </Grid>
-              <Grid item sm={2}>
-                <IconButton>
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
+            {phoneField.map((item, i) => (
+              <Box mt={2}>
+                <Grid container alignItems="center" spacing={1} key={i}>
+                  <Grid item sm={8}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      label="Phone"
+                      required
+                      name="phones"
+                      // value={item}
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        // let phones = [...phoneField];
+                        // console.log(phones);
+                        // phones.forEach((phoneItem, index) => {
+                        //   if (index === i) {
+                        //     console.log(phoneItem);
+                        //     phoneItem = e.target.value;
+                        //   }
+                        // });
+
+                        // setPhoneField((prevState) => phones);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sm={2}>
+                    <IconButton onClick={() => phoneBtn(i, item)}>
+                      {i !== phoneField.length - 1 ? (
+                        <CloseIcon />
+                      ) : (
+                        <AddCircleOutlineIcon />
+                      )}
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </Box>
+            ))}
           </Box>
 
           <Box mt={2}>
@@ -307,6 +350,9 @@ const ProfileInformation = () => {
                   variant="outlined"
                   fullWidth
                   label="Github username (optional)"
+                  name="githubUserName"
+                  value={profileForm.githubUserName}
+                  onChange={profileFormInput}
                 />
               </Grid>
               <Grid item sm={6}>
@@ -314,6 +360,9 @@ const ProfileInformation = () => {
                   variant="outlined"
                   fullWidth
                   label="Linkedin username (optional)"
+                  name="linkedinUserName"
+                  value={profileForm.linkedinUserName}
+                  onChange={profileFormInput}
                 />
               </Grid>
             </Grid>
@@ -321,9 +370,15 @@ const ProfileInformation = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickDialogClose} variant="outlined">
-            Cancle
+            Cancel
           </Button>
-          <Button variant="outlined" className={classes.saveBtn}>Save</Button>
+          <Button
+            variant="outlined"
+            onClick={profileFormSubmit}
+            className={classes.saveBtn}
+          >
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

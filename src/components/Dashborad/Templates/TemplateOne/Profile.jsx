@@ -15,21 +15,21 @@ import { tmpOneHero } from "../../../../constant/_icon";
 
 import { useStyle } from "./style";
 
-// import { useDispatch } from "react-redux";
-// import { updateProfile } from "../../../../stores/actions/authActions";
-// import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-
-  // const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser } = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
-  
-  const [specailize, setSpecialize] = useState([]);
-  useEffect(() => {
-    let specatilizationCarts = JSON.parse(localStorage.getItem("specailizationItem")) || [];
 
-    setSpecialize(specatilizationCarts);
-  }, []);
+  const [specailize, setSpecialize] = useState([]);
+  // useEffect(() => {
+  //   let specatilizationCarts =
+  //     JSON.parse(localStorage.getItem("specailizationItem")) || [];
+
+  //   setSpecialize(specatilizationCarts);
+  // }, []);
   const classes = useStyle();
   return (
     <Box py={5} className={classes.wrapper}>
@@ -38,11 +38,11 @@ const Profile = () => {
           <Grid item sm={2}>
             <Box>
               <Typography className={classes.prfTitle}>
-                YAEL <br />
-                AMARI
+                {currentUser?.profile?.firstName} <br />
+                {currentUser?.profile?.lastName}
               </Typography>
               <Typography className={classes.prfSubTitle}>
-                Graphics Designer
+                {currentUser?.profile?.role}
               </Typography>
             </Box>
           </Grid>
@@ -70,30 +70,6 @@ const Profile = () => {
                       primary={item?.skill}
                     />
                   </ListItem>
-                  {/* <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.skill}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.skill}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.skill}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.skill}
-                    />
-                  </ListItem> */}
                 </List>
               ))}
             </Grid>

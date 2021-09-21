@@ -11,7 +11,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  TextField,
   Typography,
   FormControl,
   FormLabel,
@@ -19,18 +18,18 @@ import {
   FormControlLabel,
   Radio,
 } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "../Styled";
 import EditIcon from "@material-ui/icons/Edit";
-
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CloseIcon from "@material-ui/icons/Close";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import WorkOutlineIcon from "@material-ui/icons/WorkOutline";
+import { useDispatch, useSelector } from "react-redux";
+import { updateProfile } from "../../../../stores/actions/authActions";
 
 const Availability = () => {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
   // use material ui
   const classes = useStyles();
 
@@ -51,9 +50,38 @@ const Availability = () => {
 
   //set radio button for full time work
   const [fullTimeJobValue, setFullTimeJobValue] = useState();
+
   const handleChangeFullTimeValue = (event) => {
     setFullTimeJobValue(event.target.value);
+    console.log(event.target.value);
   };
+
+  // available form
+  const [availableForm, setAvailableForm] = useState({
+    remoteJob: "",
+    fullTimeJob: "",
+  });
+
+  const availableFromSubmit = () => {
+    if (fullTimeJobValue) {
+      setAvailableForm((prevState) => ({
+        ...prevState,
+        fullTimeJob: fullTimeJobValue,
+      }));
+    }
+
+    let formData = {
+      fullTimeJob: fullTimeJobValue,
+    };
+    setDialogBox(false);
+    dispatch(updateProfile(formData));
+  };
+
+  useEffect(() => {
+    if (currentUser && currentUser.profile) {
+      setFullTimeJobValue(currentUser.profile);
+    }
+  }, [currentUser]);
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -72,14 +100,17 @@ const Availability = () => {
             </ListItem>
           </Grid>
 
-          <Grid item sm={5}>
+          <Grid item sm={4}>
             <Box textAlign="right">
               <ListItem>
                 <ListItemText>
                   <Typography className={classes.availability}>
-                    Full Time
+                    {/* Full Time */}
+                    {currentUser?.profile?.fullTimeJob}
                   </Typography>
-                  <Typography style={{fontSize: 14}}>Ready to start in 1 week</Typography>
+                  <Typography style={{ fontSize: 14 }}>
+                    {/* Ready to start in 1 week */}
+                  </Typography>
                 </ListItemText>
                 <ListItemIcon>
                   <IconButton onClick={handleClickDialogOpen}>
@@ -117,7 +148,7 @@ const Availability = () => {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <Box mt={3}>
+          {/* <Box mt={3}>
             <FormControl component="fieldset">
               <FormLabel component="legend">
                 Are you actively looking for a remote job?
@@ -143,7 +174,7 @@ const Availability = () => {
                 />
               </RadioGroup>
             </FormControl>
-          </Box>
+          </Box> */}
 
           <Box mt={2}>
             <FormControl component="fieldset">
@@ -154,16 +185,20 @@ const Availability = () => {
                 value={fullTimeJobValue}
                 onChange={handleChangeFullTimeValue}
               >
-                <FormControlLabel label="Yes" control={<Radio />} value="yes" />
+                <FormControlLabel
+                  label="Yes"
+                  control={<Radio />}
+                  value="Full Time"
+                />
                 <FormControlLabel
                   label="No, Only Part Time"
                   control={<Radio />}
-                  value="partTime"
+                  value="No, Only Part Time"
                 />
                 <FormControlLabel
                   label="I can start part-time immediately and then switch to full-time within a month"
                   control={<Radio />}
-                  value="both"
+                  value="I can start part-time immediately and then switch to full-time within a month"
                 />
               </RadioGroup>
             </FormControl>
@@ -171,9 +206,11 @@ const Availability = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickDialogClose} variant="outlined">
-            Cancle
+            Cancel
           </Button>
-          <Button variant="outlined">Save</Button>
+          <Button variant="outlined" onClick={availableFromSubmit}>
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

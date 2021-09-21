@@ -16,14 +16,18 @@ import {
   InputAdornment,
 } from "@material-ui/core";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "../Styled";
 import EditIcon from "@material-ui/icons/Edit";
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import CloseIcon from "@material-ui/icons/Close";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import { updateProfile } from "../../../../stores/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Role = () => {
+  // redux dispatch
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.auth);
   // use material ui
   const classes = useStyles();
 
@@ -35,6 +39,26 @@ const Role = () => {
   const handleClickDialogClose = () => {
     setDialogBox(false);
   };
+
+  // role form data input
+  const [roleForm, setRoleForm] = useState({
+    role: "",
+    salary: "",
+  });
+  const roleFormValue = (e) => {
+    setRoleForm({ ...roleForm, [e.target.name]: e.target.value });
+  };
+
+  const roleFormSubmit = () => {
+    dispatch(updateProfile(roleForm));
+    setDialogBox(false);
+  };
+
+  useEffect(() => {
+    if (currentUser && currentUser.profile) {
+      setRoleForm(currentUser.profile);
+    }
+  }, [currentUser]);
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -43,10 +67,12 @@ const Role = () => {
           <Grid item sm={6}>
             <ListItem>
               <ListItemIcon className={classes.listIcon}>
-                <AssignmentIndIcon fontSize='small' />
+                <AssignmentIndIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText >
-                <Typography className={classes.availability}>Role and current salary</Typography>
+              <ListItemText>
+                <Typography className={classes.availability}>
+                  Role and current salary
+                </Typography>
               </ListItemText>
             </ListItem>
           </Grid>
@@ -54,11 +80,19 @@ const Role = () => {
           <Grid item sm={5}>
             <Box textAlign="right">
               <ListItem>
-                <ListItemText
-                 
-                >
-                  <Typography className={classes.availability}>Web Front-End</Typography>
-                  <Typography style={{fontSize: 14}}>1000000/month</Typography>
+                <ListItemText>
+                  <Typography
+                    className={classes.availability}
+                    style={{ textTransform: "capitalize" }}
+                  >
+                    {/* Web Front-End
+                     */}
+                    {currentUser?.profile?.role}
+                  </Typography>
+                  <Typography style={{ fontSize: 14 }}>
+                    {/* 1000000/month */}
+                    {currentUser?.profile?.salary} BDT/month
+                  </Typography>
                 </ListItemText>
                 <ListItemIcon>
                   <IconButton onClick={handleClickDialogOpen}>
@@ -109,6 +143,9 @@ const Role = () => {
                   fullWidth
                   label="Preferred role"
                   required
+                  name="role"
+                  value={roleForm.role}
+                  onChange={roleFormValue}
                 />
               </Grid>
               <Grid item sm={6}>
@@ -117,6 +154,9 @@ const Role = () => {
                   fullWidth
                   label="Current Salary"
                   required
+                  name="salary"
+                  value={roleForm.salary}
+                  onChange={roleFormValue}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -131,9 +171,11 @@ const Role = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickDialogClose} variant="outlined">
-            Cancle
+            Cancel
           </Button>
-          <Button variant="outlined">Save</Button>
+          <Button onClick={roleFormSubmit} variant="outlined">
+            Save
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
