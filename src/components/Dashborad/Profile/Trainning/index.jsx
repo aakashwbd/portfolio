@@ -12,11 +12,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import useStyles from "../Styled";
 import { updateProfile } from "../../../../stores/actions/authActions";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { useEffect } from "react";
 
 const Trainning = () => {
   const classes = useStyles();
@@ -62,7 +63,13 @@ const Trainning = () => {
   // form submit
   const formSubmit = () => {
     setDialogOpen(false);
-    let trainings = [...currentUser?.profile?.trainings];
+
+    let trainings = [];
+    if (currentUser && currentUser.profile && currentUser.profile.trainings) {
+      trainings = [...currentUser.profile.trainings];
+    } else {
+      trainings = [];
+    }
 
     if (editStatus.status) {
       trainings = [
@@ -138,13 +145,7 @@ const Trainning = () => {
 
         <Box m={2}>
           <Box>
-            <Button variant="outlined" onClick={addHandler}>
-              add trainning
-            </Button>
-          </Box>
-
-          <Box>
-            {currentUser?.profile?.traingins?.map((item, i) => (
+            {currentUser?.profile?.trainings?.map((item, i) => (
               <Grid container>
                 <Grid item sm={8}>
                   <Typography>course Name{item?.courseName} </Typography>
@@ -167,6 +168,12 @@ const Trainning = () => {
               </Grid>
             ))}
           </Box>
+        </Box>
+
+        <Box>
+          <Button variant="outlined" onClick={addHandler}>
+            add trainning
+          </Button>
         </Box>
       </Container>
 
