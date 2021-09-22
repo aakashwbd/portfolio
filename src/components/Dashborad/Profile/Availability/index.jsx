@@ -86,7 +86,7 @@ const Availability = () => {
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
       <Container maxWidth="md">
-        <Grid container justifyContent="space-between">
+        <Grid container justifyContent="space-between" spacing={1}>
           <Grid item sm={6}>
             <ListItem alignItems="center">
               <ListItemIcon className={classes.listIcon}>
@@ -100,7 +100,7 @@ const Availability = () => {
             </ListItem>
           </Grid>
 
-          <Grid item sm={4}>
+          <Grid item sm={5}>
             <Box textAlign="right">
               <ListItem>
                 <ListItemText>

@@ -110,33 +110,38 @@ export const logout = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const updateProfile = (data) => (dispatch) => {
-  fetch("http://127.0.0.1:8000/api/auth/update", {
-    method: "PATCH",
-    headers: {
-      ...jsonTypeHeaders,
-      Authorization: TOKEN,
-    },
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
-      if (res.status === "done") {
-        // localStorage.getItem("token");
-
-        dispatch({
-          type: ActionTypes.SET_USER,
-          payload: {
-            token: TOKEN,
-            currentUser: res.data,
-            isAuthenticate: true,
-          },
-        });
-      }
+export const updateProfile =
+  (data, cb = () => {}) =>
+  (dispatch) => {
+    console.log(data);
+    fetch("http://127.0.0.1:8000/api/auth/update", {
+      method: "PATCH",
+      headers: {
+        ...jsonTypeHeaders,
+        Authorization: TOKEN,
+      },
+      body: JSON.stringify(data),
     })
-    .catch((err) => console.log(err));
-};
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        if (res.status === "done") {
+          // localStorage.getItem("token");
+
+          dispatch({
+            type: ActionTypes.SET_USER,
+            payload: {
+              token: TOKEN,
+              currentUser: res.data,
+              isAuthenticate: true,
+            },
+          });
+
+          cb();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
 export const fetchMe = () => (dispatch) => {
   fetch("http://127.0.0.1:8000/api/auth/me", {

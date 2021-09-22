@@ -22,39 +22,31 @@ import { updateProfile } from "../../../../stores/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import moment from "moment";
-// educcation label
-const education_label_data = [
-  {
-    title: "Bachelor (or equivalent)",
-  },
-  {
-    title: "Doctorate (or equivalent)",
-  },
-];
-const Education = () => {
+
+const Experiences = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
   // use material ui
   const classes = useStyles();
 
-  //   dialog box open and close
-  const [dialogBox, setDialogBox] = useState(false);
   const [addDialogBox, setAddDialogBox] = useState(false);
+
   const [editStatus, setEditStatus] = useState({
     status: false,
     index: 0,
   });
-  const [dialogTitle, setDialogTitle] = useState("Add New Education");
+
+  const [dialogTitle, setDialogTitle] = useState("Add New Experience");
 
   const handleClickDialogOpen = (index) => {
     setAddDialogBox(true);
-    setDialogTitle("Update education experience");
+    setDialogTitle("Update Experience");
 
-    let education = {};
+    let experience = {};
 
-    currentUser?.profile?.educations.forEach((item, i) => {
+    currentUser?.profile?.experiences.forEach((item, i) => {
       if (i === index) {
-        education = item;
+        experience = item;
       }
     });
 
@@ -65,32 +57,27 @@ const Education = () => {
 
     setForm((prevState) => ({
       ...prevState,
-      ...education,
+      ...experience,
     }));
-  };
-  const handleClickDialogClose = () => {
-    setDialogBox(false);
   };
   // education delete
   const handleClickDelete = (index) => {
-    let educations = [
-      ...currentUser?.profile?.educations?.filter((item, i) => i !== index),
+    let experiences = [
+      ...currentUser?.profile?.experiences?.filter((item, i) => i !== index),
     ];
-    // setEducationFrom(educations);
+    // setEducationFrom(experiences);
 
     let formData = {
-      educations: educations,
+      experiences: experiences,
     };
     dispatch(updateProfile(formData));
   };
 
   // education form
-  const [educationForm, setEducationFrom] = useState([]);
 
   const [form, setForm] = useState({
-    educationLabel: null,
-    degree: "",
-    institute: "",
+    companyName: "",
+    role: "",
     startDate: "",
     endDate: "",
   });
@@ -98,46 +85,35 @@ const Education = () => {
   const resetForm = () => {
     setForm((prevState) => ({
       ...prevState,
-      educationLabel: null,
-      degree: "",
-      institute: "",
+
+      companyName: "",
+      role: "",
       startDate: "",
       endDate: "",
     }));
   };
 
   const educationInputValue = (field, value) => {
-    // let educations = [...educationForm];
-
-    // educations.forEach((item, i) => {
-    //   if (i === index) {
-    //     console.log("Here");
-    //     item[field] = value;
-    //   }
-    // });
-    // setEducationFrom(educations);
     setForm((prevState) => ({
       ...prevState,
       [field]: value,
     }));
   };
 
-  // console.log("educationform", educationForm);
-
   const educationFormSubmit = () => {
-    let educations = [...currentUser?.profile?.educations];
+    let experiences = [...currentUser?.profile?.experiences];
 
     if (editStatus.status) {
-      educations = [
-        ...educations.filter((item, i) => i !== editStatus.index),
+      experiences = [
+        ...experiences.filter((item, i) => i !== editStatus.index),
         form,
       ];
     } else {
-      educations = [...educations, form];
+      experiences = [...experiences, form];
     }
 
     let formData = {
-      educations: educations,
+      experiences: experiences,
     };
 
     dispatch(
@@ -149,50 +125,30 @@ const Education = () => {
     );
   };
 
-  // useEffect(() => {
-  //   if (currentUser && currentUser.profile && currentUser.profile.educations) {
-  //     setEducationFrom(currentUser.profile.educations || []);
-  //   }
-  // }, [currentUser]);
-
-  // education lavel
-  // const onChangeEducation = (data) => {
-  //   setEducationFrom({ ...educationForm, educationLabel: data });
-  // };
-
-  // add education
+  // add experience
   const addEducation = () => {
     setAddDialogBox(true);
-    setDialogTitle("Add New Education");
-    // setEducationFrom((prevState) => [
-    //   ...prevState,
-    //   {
-    //     educationLabel: null,
-    //     degree: "",
-    //     institute: "",
-    //     startDate: "",
-    //     endDate: "",
-    //   },
-    // ]);
+    setDialogTitle("Add New Experience");
   };
 
   const handleClickAddDialogClose = () => {
     setAddDialogBox(false);
   };
 
-  console.log(educationForm);
+  console.log("form", form);
+  console.log("exp", currentUser?.profile?.experiences);
 
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
       <Container maxWidth="md">
         <Box m={2}>
-          <Typography className={classes.portionTitle}>Education</Typography>
+          <Typography className={classes.portionTitle}>Experience</Typography>
         </Box>
 
         <Box m={2}>
           <Box>
-            {currentUser?.profile?.educations?.map((item, i) => (
+            {currentUser?.profile?.experiences?.map((item, i) => (
               <Box mb={1}>
                 <Grid container key={i}>
                   <Grid item xs={12} sm={8} lg={8}>
@@ -211,13 +167,10 @@ const Education = () => {
                         fontWeight: "bold",
                       }}
                     >
-                      {item?.institute}
+                      {item?.companyName}
                     </Typography>
                     <Typography style={{ fontFamily: "Gordita", fontSize: 14 }}>
-                      {item?.degree}
-                    </Typography>
-                    <Typography style={{ fontFamily: "Gordita", fontSize: 14 }}>
-                      {item?.educationLabel?.title}
+                      {item?.role}
                     </Typography>
                   </Grid>
                   <Grid item xs={12} sm={8} lg={4}>
@@ -236,7 +189,7 @@ const Education = () => {
           </Box>
           <Box mt={2}>
             <Button variant="outlined" onClick={addEducation}>
-              Add Education
+              Add Experince
             </Button>
           </Box>
         </Box>
@@ -250,7 +203,7 @@ const Education = () => {
         maxWidth="sm"
         aria-labelledby="dialog-area"
       >
-        <DialogTitle id="dialog-area">
+        <DialogTitle>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item sm={8}>
               <Typography className={classes.dialogTitle}>
@@ -268,48 +221,29 @@ const Education = () => {
         </DialogTitle>
         <DialogContent>
           <Box my={2}>
-            <Autocomplete
-              size="small"
-              id="educationLabel"
-              fullWidth
-              // value={educationForm[educationForm.length - 1]?.educationLabel}
-              value={form.educationLabel}
-              onChange={(e, newValue) =>
-                educationInputValue("educationLabel", newValue)
-              }
-              options={education_label_data}
-              getOptionLabel={(option) => option.title}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Label of Education"
-                  variant="outlined"
-                />
-              )}
-            />
-          </Box>
-          <Box my={2}>
             <TextField
               variant="outlined"
-              label="Degree"
+              label="Company Name"
               size="small"
               fullWidth
-              name="degree"
+              name="companyName"
               // value={educationForm[educationForm.length - 1]?.degree}
-              value={form?.degree}
-              onChange={(e) => educationInputValue("degree", e.target.value)}
+              value={form?.companyName}
+              onChange={(e) =>
+                educationInputValue("companyName", e.target.value)
+              }
             />
           </Box>
           <Box my={2}>
             <TextField
               variant="outlined"
-              label="Institute"
+              label="Role"
               size="small"
               fullWidth
-              name="institute"
+              name="role"
               // value={educationForm[educationForm.length - 1]?.institute}
-              value={form.institute}
-              onChange={(e) => educationInputValue("institute", e.target.value)}
+              value={form.role}
+              onChange={(e) => educationInputValue("role", e.target.value)}
             />
           </Box>
           <Box mt={2}>
@@ -366,4 +300,4 @@ const Education = () => {
   );
 };
 
-export default Education;
+export default Experiences;

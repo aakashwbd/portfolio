@@ -55,7 +55,7 @@ const Sidebar = () => {
           <ListItem>
             <ListItemText secondary="User" />
           </ListItem>
-          <Link to="/dashboard/information" className={classes.a}>
+          <Link to="/dashboard" className={classes.a}>
             <ListItem button className={classes.list}>
               <ListItemIcon>
                 <PermIdentityOutlinedIcon />

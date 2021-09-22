@@ -9,14 +9,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { tmpOneHero } from "../../../../constant/_icon";
 
 import { useStyle } from "./style";
 
-import { useDispatch } from "react-redux";
-import { updateProfile } from "../../../../stores/actions/authActions";
 import { useSelector } from "react-redux";
 
 const Profile = () => {
@@ -62,16 +59,18 @@ const Profile = () => {
                   Specializations
                 </Typography>
               </Box>
-              {specailize.map((item, i) => (
+              {/* {currentUser?.profile?.firstName} */}
+              {/* {specailize.map((item, i) => (
                 <List key={i}>
                   <ListItem>
                     <ListItemText
                       className={classes.specializeItem}
-                      primary={item?.skill}
+                      // primary={currentUser?.profile?.firstName}
+                      // {currentUser?.profile?.firstName}
                     />
                   </ListItem>
                 </List>
-              ))}
+              ))} */}
             </Grid>
           </Grid>
         </Box>
