@@ -21,24 +21,44 @@ const Education = () => {
           Education <br /> Background
         </Typography>
 
-        <Grid container alignItems="center" justifyContent="space-between">
-          <Grid item sm={3}>
-            <Typography className={classes.sclName}>
-              {currentUser?.profile?.educations?.item?.institute}
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
-              </ListItem>
-            </List>
-          </Grid>
-        </Grid>
+        {currentUser?.profile?.educations?.map((item, i) => (
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Grid item sm={3}>
+                <Typography className={classes.sclName}>
+                  {item.institute}
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="Wrote dissertation on Advertising for Millennials" />
+                  </ListItem>
+                </List>
+              </Grid>
+            </Grid>
+        ))}
+        {/*<Grid container alignItems="center" justifyContent="space-between">*/}
+        {/*  <Grid item sm={3}>*/}
+        {/*    <Typography className={classes.sclName}>*/}
+        {/*      {currentUser?.profile?.educations?.item?.institute}*/}
+        {/*    </Typography>*/}
+        {/*    <List>*/}
+        {/*      <ListItem>*/}
+        {/*        <ListItemText primary="Wrote dissertation on Advertising for Millennials" />*/}
+        {/*      </ListItem>*/}
+        {/*      <ListItem>*/}
+        {/*        <ListItemText primary="Wrote dissertation on Advertising for Millennials" />*/}
+        {/*      </ListItem>*/}
+        {/*      <ListItem>*/}
+        {/*        <ListItemText primary="Wrote dissertation on Advertising for Millennials" />*/}
+        {/*      </ListItem>*/}
+        {/*    </List>*/}
+        {/*  </Grid>*/}
+        {/*</Grid>*/}
       </Container>
     </Box>
   );
