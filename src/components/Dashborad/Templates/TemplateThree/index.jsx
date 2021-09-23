@@ -7,11 +7,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import {
-  tempTwoBg,
-  tmpThreeHero,
-  tmpTwoHero,
-} from "../../../../constant/_icon";
+import { useSelector } from "react-redux";
+import { tmpThreeHero } from "../../../../constant/_icon";
 import Contact from "./Contact";
 import Education from "./Education";
 import PersonalLife from "./PersonalLife";
@@ -77,6 +74,9 @@ const useStyles = makeStyles({
 });
 const TemplateThree = () => {
   const classes = useStyles();
+
+  const { currentUser } = useSelector((state) => state.auth);
+
   return (
     <Box>
       <Box className={classes.heroBg}></Box>
@@ -85,9 +85,12 @@ const TemplateThree = () => {
       </Box>
       <Container maxWidth="lg">
         <Box className={classes.titleBox}>
-          <Typography className={classes.title}>JAMIE CHASTAIN</Typography>
+          <Typography className={classes.title}>
+            {currentUser?.profile?.firstName} {""}
+            {currentUser?.profile?.lastName}
+          </Typography>
           <Typography className={classes.subtitle}>
-            SOFTWARE DEVELOPER
+            {currentUser?.profile?.role}
           </Typography>
         </Box>
         <Grid container>

@@ -1,61 +1,85 @@
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
-import RoomIcon from '@material-ui/icons/Room';
-import EmailIcon from '@material-ui/icons/Email';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import PhoneIcon from '@material-ui/icons/Phone';
+import {
+  Avatar,
+  Box,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import React from "react";
+import { useSelector } from "react-redux";
+
+import LanguageIcon from "@material-ui/icons/Language";
+import PhoneIcon from "@material-ui/icons/Phone";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+
 const useStyles = makeStyles({
-    title: {
-        color:"rgba(0, 0, 0, 0.3)",
-        fontSize: 30,
-        fontWeight: 'bold',
-        letterSpacing: '0.3rem',
-        
-    },
-    listText: {
-      fontSize: 18,
-        fontFamily: 'Poppins',
-        color: '#7C8587'
-    }
-})
+  title: {
+    color: "rgba(0, 0, 0, 0.3)",
+    fontSize: 30,
+    fontWeight: "bold",
+    letterSpacing: "0.3rem",
+  },
+  listText: {
+    fontSize: 18,
+    fontFamily: "Poppins",
+    color: "#7C8587",
+  },
+});
 const Contact = () => {
-    const classes = useStyles()
-    return (
-        <Box my={5}>
-            <Box>
-               <Typography className={classes.title}>Contact</Typography> 
-            </Box>
-            <Box>
-                {/* <List>
-                    <ListItem className={classes.listText}>
-                        <ListItemAvatar>
-                            <RoomIcon/>
-                        </ListItemAvatar>
-                        <ListItemText primary='open street, 315/a, New York'/>
-                    </ListItem> 
-                    <ListItem className={classes.listText}>
-                        <ListItemAvatar>
-                            <EmailIcon/>
-                        </ListItemAvatar>
-                        <ListItemText primary='exam@emap.com'/>
-                    </ListItem>  
-                    <ListItem className={classes.listText}>
-                        <ListItemAvatar>
-                            <PhoneIcon/>
-                        </ListItemAvatar>
-                        <ListItemText primary='0195001231'/>
-                    </ListItem>  
-                    <ListItem className={classes.listText}>
-                        <ListItemAvatar>
-                            <LinkedInIcon/>
-                        </ListItemAvatar>
-                        <ListItemText primary='Akash'/>
-                    </ListItem>
-                </List> */}
-            </Box>
-        </Box>
-    )
-}
+  const classes = useStyles();
+  const { currentUser } = useSelector((state) => state.auth);
 
-export default Contact
+  return (
+    <Box my={5}>
+      <Box>
+        <Typography className={classes.title}>Contact</Typography>
+      </Box>
+      <Box>
+        <ListItem>
+          <ListItemIcon>
+            <LanguageIcon />
+          </ListItemIcon>
+          <ListItemText primary={currentUser?.profile?.countries?.title} />
+        </ListItem>
 
+        {currentUser?.profile?.phone?.map((item, i) => (
+          <ListItem>
+            <ListItemIcon className={classes.listIcon}>
+              <PhoneIcon size="small" />
+            </ListItemIcon>
+            <ListItemText primary={item} />
+          </ListItem>
+        ))}
+
+        <ListItem>
+          <ListItemIcon>
+            <MailOutlineIcon />
+          </ListItemIcon>
+          <ListItemText primary={currentUser?.email} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <GitHubIcon />
+          </ListItemIcon>
+          <ListItemText primary={currentUser?.profile?.githubUserName} />
+        </ListItem>
+
+        <ListItem>
+          <ListItemIcon>
+            <LinkedInIcon />
+          </ListItemIcon>
+          <ListItemText primary={currentUser?.profile?.linkedinUserName} />
+        </ListItem>
+      </Box>
+    </Box>
+  );
+};
+
+export default Contact;

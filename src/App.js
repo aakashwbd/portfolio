@@ -10,10 +10,11 @@ import TemplateThree from "./components/Dashborad/Templates/TemplateThree";
 import Signup from "./components/auth/Signup";
 import Login from "./components/auth/Login";
 
-import Profile from "./components/Dashborad/Profile"
+import Profile from "./components/Dashborad/Profile";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchMe } from "./stores/actions/authActions";
+import SelectTemplate from "./components/Dashborad/SelectTemplate";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/login" exact component={Login} />
 
           <Route path="/dashboard" exact component={Profile} />
+          <Route path="/select_template" exact component={SelectTemplate} />
 
           <Route path="/template1" exact component={TemplateOne} />
           <Route path="/template2" exact component={TemplateTwo} />

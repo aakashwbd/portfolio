@@ -5,101 +5,130 @@ import {
   Grid,
   List,
   ListItem,
+  ListItemIcon,
   ListItemText,
   Typography,
 } from "@material-ui/core";
 import { useStyle } from "./style";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import moment from "moment";
+import LanguageIcon from "@material-ui/icons/Language";
+import PhoneIcon from "@material-ui/icons/Phone";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+
 const Contact = () => {
+  const { currentUser } = useSelector((state) => state.auth);
 
-  const [experience, setExperience] = useState([]);
-  
-  const [contactInfo, setContactInfo] = useState();
-
-  useEffect(() => {
-    let experienceCarts = JSON.parse(localStorage.getItem("experience")) || [];
-
-    setExperience(experienceCarts);
-    setContactInfo(JSON.parse(localStorage.getItem("contact")));
-  }, []);
-
-  console.log(experience);
   const classes = useStyle();
   return (
     <Box>
       <Container maxWidth="md">
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item sm={4}>
-            <Box pt={5}>
-              <Box>
+        <Grid container spacing={2} justifyContent="space-between">
+          <Grid item sm={4} lg={4}>
+            <Grid container>
+              <Grid item sm={12}>
                 <Typography className={classes.specialzationTitle}>
-                  COntact <br /> Information
+                  Contact <br /> Information
                 </Typography>
-              </Box>
-              <List>
-                <ListItem>
-                  <ListItemText
-                    className={classes.specializeItem}
-                    primary={contactInfo?.address}
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    className={classes.specializeItem}
-                    primary={contactInfo?.email}
-                  />
-                </ListItem>
-                {/* <ListItem>
+                <Box>
+                  <ListItem>
+                    <ListItemIcon>
+                      <LanguageIcon />
+                    </ListItemIcon>
                     <ListItemText
-                      className={classes.specializeItem}
-                      primary="Digital product design"
+                      primary={currentUser?.profile?.countries?.title}
                     />
-                  </ListItem> */}
-              </List>
-            </Box>
+                  </ListItem>
+
+                  {currentUser?.profile?.phone?.map((item, i) => (
+                    <ListItem>
+                      <ListItemIcon className={classes.listIcon}>
+                        <PhoneIcon size="small" />
+                      </ListItemIcon>
+                      <ListItemText primary={item} />
+                    </ListItem>
+                  ))}
+
+                  <ListItem>
+                    <ListItemIcon>
+                      <MailOutlineIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={currentUser?.email} />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemIcon>
+                      <GitHubIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={currentUser?.profile?.githubUserName}
+                    />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemIcon>
+                      <LinkedInIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={currentUser?.profile?.linkedinUserName}
+                    />
+                  </ListItem>
+                </Box>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={4}>
-            <Box pt={5}>
+          <Grid item sm={4} lg={4}>
+            <Grid item sm={12}>
+              <Typography className={classes.specialzationTitle}>
+                Work <br /> Experience
+              </Typography>
               <Box>
-                <Typography className={classes.specialzationTitle}>
-                  Work Experience
-                </Typography>
+                {currentUser?.profile?.experiences?.map((item, i) => (
+                  <Box my={2}>
+                    {/* <Grid container>
+                      <Grid item sm={12} lg={8}> */}
+                    {item?.startDate && (
+                      <Typography
+                        style={{
+                          fontFamily: "Gordita",
+                          fontSize: 12,
+                        }}
+                      >
+                        {moment(item?.startDate).format("MMM YYYY")}-{" "}
+                        {moment(item?.endDate).format("MMM YYYY")}
+                      </Typography>
+                    )}
+                    <Typography
+                      style={{
+                        fontFamily: "Gordita",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
+
+                        margin: "5px 0px ",
+                      }}
+                    >
+                      {item?.designation}
+                    </Typography>
+                    <Typography
+                      style={{
+                        fontFamily: "Gordita",
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {item?.companyName}
+                    </Typography>
+                    {/* </Grid>
+                    </Grid> */}
+                  </Box>
+                ))}
               </Box>
-              {experience.map((item, i) => (
-                <List key={i}>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.Company}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.Role}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.From}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.To}
-                    />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText
-                      className={classes.specializeItem}
-                      primary={item?.Description}
-                    />
-                  </ListItem>
-                </List>
-              ))}
-            </Box>
+            </Grid>
           </Grid>
         </Grid>
       </Container>

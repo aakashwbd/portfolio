@@ -1,31 +1,37 @@
-import { Box, makeStyles, Typography } from '@material-ui/core'
-import React from 'react'
+import { Box, Container, makeStyles, Typography } from "@material-ui/core";
+import React from "react";
+import { useSelector } from "react-redux";
 const useStyles = makeStyles({
-    title: {
-        color:"rgba(0, 0, 0, 0.3)",
-        fontSize: 30,
-        fontWeight: 'bold',
-        letterSpacing: '0.3rem',
-        margin: "40px 0px"
-    },
-    details: {
-      fontSize: 18,
-        fontFamily: 'Poppins',
-        color: '#7C8587'
-    }
-})
+  title: {
+    color: "rgba(0, 0, 0, 0.3)",
+    fontSize: 30,
+    fontWeight: "bold",
+    letterSpacing: "0.3rem",
+    margin: "40px 0px",
+  },
+  details: {
+    fontSize: 16,
+    fontFamily: "Poppins",
+    color: "#7C8587",
+    textAlign: "justify",
+  },
+});
 const PersonalLife = () => {
-    const classes = useStyles()
-    return (
-        <Box>
-            <Box>
-               <Typography className={classes.title}>PERSONAL <br /> PROFILE</Typography> 
-            </Box>
-            <Box>
-                <Typography className={classes.details}>details</Typography>
-            </Box>
-        </Box>
-    )
-}
+  const { currentUser } = useSelector((state) => state.auth);
 
-export default PersonalLife
+  const classes = useStyles();
+  return (
+    <Container maxWidth="md">
+      <Box>
+        <Typography className={classes.title}>About</Typography>
+      </Box>
+      <Box>
+        <Typography className={classes.details}>
+          {currentUser?.profile?.summary}
+        </Typography>
+      </Box>
+    </Container>
+  );
+};
+
+export default PersonalLife;

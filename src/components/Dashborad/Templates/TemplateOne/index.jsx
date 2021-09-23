@@ -1,16 +1,17 @@
 import { Box } from "@material-ui/core";
+import About from "./About";
 
 import Contact from "./Contact";
 import Education from "./Education";
 import Profile from "./Profile";
-import { useStyle } from "./style";
+import Skills from "./Skills";
 
 const TemplateOne = () => {
-  const classes = useStyle();
-
   return (
     <Box>
       <Profile />
+      <About />
+      <Skills />
       <Contact />
       <Education />
     </Box>

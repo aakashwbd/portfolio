@@ -18,20 +18,16 @@ const useStyles = makeStyles({
     fontFamily: "Gordita",
   },
   prfileCard: {
+    marginTop: 100,
     borderRadius: "8px 8px 0px 0px",
+  },
+  trainingCard: {
+    borderRadius: " 0px 0px 8px 8px ",
+    marginBottom: 200,
   },
   availalbityCard: {
     borderRadius: 0,
   },
-  // dashboardFont: {
-  //   fontFamily: "Gordita",
-  // },
-
-  // listItemFont: {
-  //   "& .MuiTypography-root": {
-  //     fontFamily: "Gordita",
-  //   }
-  // },
 
   profileName: {
     fontSize: 18,
@@ -87,6 +83,12 @@ const useStyles = makeStyles({
       color: "white",
       background: "black",
     },
+  },
+  training: {
+    fontFamily: "Gordita",
+    fontWeight: "bold",
+    fontSize: 14,
+    textTransform: "capitalize",
   },
 });
 

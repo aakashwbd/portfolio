@@ -68,7 +68,7 @@ const ProfileInformation = () => {
     summary: "",
     githubUserName: "",
     linkedinUserName: "",
-    phones: [""],
+    phone: "",
   });
 
   const profileFormInput = (e) => {
@@ -76,38 +76,44 @@ const ProfileInformation = () => {
   };
 
   const profileFormSubmit = () => {
-    dispatch(updateProfile(profileForm));
+    dispatch(
+      updateProfile({
+        ...profileForm,
+        phone: formValues,
+      })
+    );
+    // dispatch(updateProfile(formValues));
     setDialogBox(false);
   };
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
   console.log(currentUser);
-  // form edit click data show
+
   useEffect(() => {
     if (currentUser && currentUser.profile) {
       setProfileForm(currentUser.profile);
     }
   }, [currentUser]);
-  // on change country data
+
   const onChangeCountry = (data) => {
     setProfileForm({ ...profileForm, countries: data });
   };
 
-  // adding phone field
-  const [phoneField, setPhoneField] = useState([""]);
+  const [formValues, setFormValues] = useState([]);
 
-  const phoneBtn = (index) => {
-    if (index !== phoneField.length - 1) {
-      let addItems = [...phoneField];
-      let formate = addItems.filter((item, i) => i !== index);
-      setPhoneField(formate);
-    } else {
-      setPhoneField((prevState) => [...prevState, ""]);
-    }
+  let handleChange = (i, e) => {
+    let newFormValues = [...formValues];
+    newFormValues[i] = e.target.value;
+    setFormValues(newFormValues);
   };
-
-  console.log(phoneField);
-
+  const addHandler = () => {
+    setFormValues([...formValues, ""]);
+  };
+  let removeFormFields = (i) => {
+    let newFormValues = [...formValues];
+    newFormValues.splice(i, 1);
+    setFormValues(newFormValues);
+  };
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -152,27 +158,32 @@ const ProfileInformation = () => {
           spacing={1}
           justifyContent="space-between"
         >
-          <Grid item sm={3}>
-            <ListItem>
-              <ListItemIcon className={classes.listIcon}>
-                <EmailIcon size="small" />
-              </ListItemIcon>
-              <ListItemText primary={currentUser?.email} />
-            </ListItem>
-          </Grid>
-
-          <Grid item sm={3}>
-            <ListItem>
-              <ListItemIcon className={classes.listIcon}>
-                <PhoneIcon size="small" />
-              </ListItemIcon>
-              <ListItemText primary={currentUser?.profile?.phones} />
-            </ListItem>
-          </Grid>
-
-          <Grid item sm={3}>
-            <Grid container>
+          <Grid item sm={7}>
+            <Grid container justifyContent="space-between">
               <Grid item sm={3}>
+                <ListItem>
+                  <ListItemIcon className={classes.listIcon}>
+                    <EmailIcon size="small" />
+                  </ListItemIcon>
+                  <ListItemText primary={currentUser?.email} />
+                </ListItem>
+              </Grid>
+              <Grid item sm={3}>
+                {currentUser?.profile?.phone?.map((item, i) => (
+                  <ListItem>
+                    <ListItemIcon className={classes.listIcon}>
+                      <PhoneIcon size="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={item} />
+                  </ListItem>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item sm={2}>
+            <Grid container spacing={5}>
+              <Grid item sm={2}>
                 <Box textAlign="center">
                   <Tooltip
                     title={currentUser?.profile?.linkedinUserName}
@@ -182,7 +193,7 @@ const ProfileInformation = () => {
                   </Tooltip>
                 </Box>
               </Grid>
-              <Grid item sm={3}>
+              <Grid item sm={2}>
                 <Box textAlign="right">
                   <Tooltip
                     title={currentUser?.profile?.githubUserName}
@@ -303,44 +314,37 @@ const ProfileInformation = () => {
           </Box>
 
           <Box mt={2}>
-            {phoneField.map((item, i) => (
-              <Box mt={2}>
-                <Grid container alignItems="center" spacing={1} key={i}>
-                  <Grid item sm={8}>
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      label="Phone"
-                      required
-                      name="phones"
-                      // value={item}
-                      onChange={(e) => {
-                        console.log(e.target.value);
-                        // let phones = [...phoneField];
-                        // console.log(phones);
-                        // phones.forEach((phoneItem, index) => {
-                        //   if (index === i) {
-                        //     console.log(phoneItem);
-                        //     phoneItem = e.target.value;
-                        //   }
-                        // });
-
-                        // setPhoneField((prevState) => phones);
-                      }}
-                    />
+            <Box>
+              {formValues.map((item, i) => (
+                <Box mt={2}>
+                  <Grid container>
+                    <Grid item sm={10} key={i}>
+                      <TextField
+                        size="small"
+                        fullWidth
+                        variant="outlined"
+                        label="Phone "
+                        name="phone"
+                        value={item}
+                        onChange={(e) => handleChange(i, e)}
+                      />
+                    </Grid>
+                    <Grid item sm={2}>
+                      {i ? (
+                        <IconButton onClick={() => removeFormFields(i)}>
+                          <CloseIcon />
+                        </IconButton>
+                      ) : null}
+                    </Grid>
                   </Grid>
-                  <Grid item sm={2}>
-                    <IconButton onClick={() => phoneBtn(i, item)}>
-                      {i !== phoneField.length - 1 ? (
-                        <CloseIcon />
-                      ) : (
-                        <AddCircleOutlineIcon />
-                      )}
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </Box>
-            ))}
+                </Box>
+              ))}
+            </Box>
+            <Box>
+              <IconButton onClick={() => addHandler()}>
+                <AddCircleOutlineIcon />
+              </IconButton>
+            </Box>
           </Box>
 
           <Box mt={2}>

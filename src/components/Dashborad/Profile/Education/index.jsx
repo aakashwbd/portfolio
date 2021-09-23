@@ -20,7 +20,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Autocomplete } from "@material-ui/lab";
 import { updateProfile } from "../../../../stores/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+
 import moment from "moment";
 // educcation label
 const education_label_data = [
@@ -29,6 +29,15 @@ const education_label_data = [
   },
   {
     title: "Doctorate (or equivalent)",
+  },
+  {
+    title: "HSC (or O'level)",
+  },
+  {
+    title: "SSC (or A'level)",
+  },
+  {
+    title: "M. Sc. ",
   },
 ];
 const Education = () => {

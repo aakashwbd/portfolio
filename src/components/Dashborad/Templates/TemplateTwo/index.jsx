@@ -7,11 +7,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { useSelector } from "react-redux";
 import { tempTwoBg, tmpTwoHero } from "../../../../constant/_icon";
 import Contact from "./Contact";
 import Education from "./Education";
 import PersonalLife from "./PersonalLife";
-import Skills from "./Skills";
+import Trainings from "./Trainings";
+
 import WorkExperience from "./WorkExperience";
 
 const useStyles = makeStyles({
@@ -50,6 +52,8 @@ const useStyles = makeStyles({
   },
 });
 const TemplateTwo = () => {
+  const { currentUser } = useSelector((state) => state.auth);
+
   const classes = useStyles();
   return (
     <Box>
@@ -60,33 +64,35 @@ const TemplateTwo = () => {
               <Avatar src={tmpTwoHero} className={classes.prfImg} />
             </Grid>
             <Grid item sm={6}>
-              <Box>
+              <Box textAlign="right">
                 <Typography className={classes.title}>
-                  TIMOTHY STUART
+                  {currentUser?.profile?.firstName}{" "}
+                  {currentUser?.profile?.lastName}
                 </Typography>
                 <Typography className={classes.subtitle}>
-                  MARKETING ASSISTANT
+                  {currentUser?.profile?.role}
                 </Typography>
               </Box>
             </Grid>
           </Grid>
         </Container>
       </Box>
-      <Container maxWidth="md">
-        <Grid container justifyContent="space-between">
-          <Grid item sm={4}>
-            <Container maxWidth="sm">
+
+      <Box>
+        <Container maxWidth="md">
+          <Grid container justifyContent="space-between" spacing={3}>
+            <Grid item sm={6}>
               <PersonalLife />
               <Contact />
               <Education />
-            </Container>
+            </Grid>
+            <Grid item sm={6}>
+              <Trainings />
+              <WorkExperience />
+            </Grid>
           </Grid>
-          <Grid item sm={4}>
-            <Skills />
-            <WorkExperience />
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </Box>
     </Box>
   );
 };

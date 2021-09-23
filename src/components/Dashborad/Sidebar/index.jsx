@@ -12,15 +12,17 @@ import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
 
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useHistory } from "react-router-dom";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../stores/actions/authActions";
 const useStyles = makeStyles({
   wrapper: {
     position: "fixed",
     height: "100%",
     minHeight: "100vh",
     width: 265,
-    padding: "50px 10px",
+    padding: "5px 10px",
     backgroundColor: " #FFFFFF",
     boxShadow: "5px 5px 10px rgba(0, 0, 0, 0.03)",
     fontFamily: "Montserrat",
@@ -48,12 +50,19 @@ const Sidebar = () => {
     setOpen(!open);
   };
 
+  const { currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const logoutHandler = () => {
+    history.push("/");
+    dispatch(logout());
+  };
   return (
     <Box className={classes.wrapper}>
       <List>
         <Box>
           <ListItem>
-            <ListItemText secondary="User" />
+            <ListItemText secondary="Dashboard" />
           </ListItem>
           <Link to="/dashboard" className={classes.a}>
             <ListItem button className={classes.list}>
@@ -66,38 +75,23 @@ const Sidebar = () => {
         </Box>
 
         <Box>
-          <ListItem button onClick={handleClick}>
-            <ListItemText secondary="Saved" />
-          </ListItem>
-          <ListItem button className={classes.list} onClick={handleClick}>
-            <ListItemIcon>
-              <AccountTreeIcon />
+          <Link to="/select_template" className={classes.a}>
+            <ListItem button className={classes.list}>
+              <ListItemIcon>
+                <AccountTreeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Select Template" />
+              {/* <Link to="/select_template">Template</Link> */}
+            </ListItem>
+          </Link>
+        </Box>
+        <Box>
+          <ListItem onClick={logoutHandler} button className={classes.list}>
+            <ListItemIcon onClick={logoutHandler}>
+              <VpnKeyIcon />
             </ListItemIcon>
-            <ListItemText primary="Templates" />
-
-            {open ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText primary="Log Out" />
           </ListItem>
-          <Collapse in={open} unmountOnExit>
-            <List>
-              <ListItem button className={classes.list}>
-                <Link to="/template1" className={classes.a}>
-                  Template One
-                </Link>
-              </ListItem>
-
-              <ListItem button className={classes.list}>
-                <Link to="/template2" className={classes.a}>
-                  Template Two
-                </Link>
-              </ListItem>
-
-              <ListItem button className={classes.list}>
-                <Link to="/template3" className={classes.a}>
-                  Template Three
-                </Link>
-              </ListItem>
-            </List>
-          </Collapse>
         </Box>
       </List>
     </Box>

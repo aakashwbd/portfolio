@@ -11,7 +11,7 @@ import google from "../assets/images/hero/google.png";
 import logitech from "../assets/images/hero/logitech.png";
 import amazon from "../assets/images/hero/amazon.png";
 import noise from "../assets/images/bg_noise.png";
-import shadow from '../assets/images/Sadow.png'
+import shadow from "../assets/images/Sadow.png";
 import one from "../assets/images/footer/one.png";
 import two from "../assets/images/footer/two.png";
 import three from "../assets/images/footer/three.png";
@@ -22,6 +22,10 @@ import tempFourBg from "../assets/images/template/temp4_bg.png";
 import tmpOneHero from "../assets/images/template/tmpOneHero.png";
 import tmpTwoHero from "../assets/images/template/temp2hero.png";
 import tmpThreeHero from "../assets/images/template/temp3hero.png";
+
+import resumeOne from "../assets/images/template/temp/Resume - 1.png";
+import resumeTwo from "../assets/images/template/temp/Resume - 2.png";
+import resumeThree from "../assets/images/template/temp/Resume - 3.png";
 
 export {
   logo,
@@ -47,4 +51,7 @@ export {
   tmpTwoHero,
   tmpThreeHero,
   shadow,
+  resumeOne,
+  resumeTwo,
+  resumeThree,
 };

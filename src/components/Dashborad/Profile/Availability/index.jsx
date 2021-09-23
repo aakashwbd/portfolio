@@ -42,18 +42,12 @@ const Availability = () => {
     setDialogBox(false);
   };
 
-  //set radio button for remote job
-  const [remoteJobValue, setRemoteJobValue] = useState();
-  const handleChangeRemoteValue = (event) => {
-    setRemoteJobValue(event.target.value);
-  };
-
   //set radio button for full time work
   const [fullTimeJobValue, setFullTimeJobValue] = useState();
 
   const handleChangeFullTimeValue = (event) => {
     setFullTimeJobValue(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   // available form
@@ -148,34 +142,6 @@ const Availability = () => {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          {/* <Box mt={3}>
-            <FormControl component="fieldset">
-              <FormLabel component="legend">
-                Are you actively looking for a remote job?
-              </FormLabel>
-              <RadioGroup
-                value={remoteJobValue}
-                onChange={handleChangeRemoteValue}
-              >
-                <FormControlLabel
-                  label="Ready to Interview"
-                  control={<Radio />}
-                  value="interview"
-                />
-                <FormControlLabel
-                  label="Open to Offers"
-                  control={<Radio />}
-                  value="offers"
-                />
-                <FormControlLabel
-                  label="Unavailable for Jobs"
-                  control={<Radio />}
-                  value="unavailable"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box> */}
-
           <Box mt={2}>
             <FormControl component="fieldset">
               <FormLabel component="legend">

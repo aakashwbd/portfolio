@@ -9,8 +9,8 @@ import useStyles from "./Styled";
 import Role from "./Role";
 import Education from "./Education";
 import Skills from "./Skills";
-import Experiences from "./Experiences";
 import Trainning from "./Trainning";
+import Experience from "./Experience";
 
 const Profile = () => {
   const classes = useStyles();
@@ -42,18 +42,15 @@ const Profile = () => {
             <Education />
           </Card>
         </Box>
-        {/* <Box mt={0.5}>
+
+        <Box mt={0.5}>
           <Card className={classes.availalbityCard} elevation={0}>
             <Experience />
           </Card>
-        </Box> */}
-        <Box mt={0.5}>
-          <Card className={classes.availalbityCard} elevation={0}>
-            <Experiences />
-          </Card>
         </Box>
+
         <Box mt={0.5}>
-          <Card className={classes.availalbityCard} elevation={0}>
+          <Card className={classes.trainingCard} elevation={0}>
             <Trainning />
           </Card>
         </Box>

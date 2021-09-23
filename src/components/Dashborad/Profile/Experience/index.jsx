@@ -18,8 +18,9 @@ import { updateProfile } from "../../../../stores/actions/authActions";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { useEffect } from "react";
+import moment from "moment";
 
-const Trainning = () => {
+const Experience = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.auth);
@@ -35,20 +36,21 @@ const Trainning = () => {
 
   // form
   const [form, setForm] = useState({
-    courseName: "",
-    duration: "",
-    instituteName: "",
-    instituteLocation: "",
+    companyName: "",
+    designation: "",
+    startDate: "",
+    endDate: "",
   });
 
   // reset form
   const resetForm = () => {
     setForm((prevState) => ({
       ...prevState,
-      courseName: "",
-      duration: "",
-      instituteName: "",
-      instituteLocation: "",
+
+      companyName: "",
+      designation: "",
+      startDate: "",
+      endDate: "",
     }));
   };
 
@@ -64,24 +66,24 @@ const Trainning = () => {
   const formSubmit = () => {
     setDialogOpen(false);
 
-    let trainings = [];
-    if (currentUser && currentUser.profile && currentUser.profile.trainings) {
-      trainings = [...currentUser.profile.trainings];
+    let experiences = [];
+    if (currentUser && currentUser.profile && currentUser.profile.experiences) {
+      experiences = [...currentUser.profile.experiences];
     } else {
-      trainings = [];
+      experiences = [];
     }
 
     if (editStatus.status) {
-      trainings = [
-        ...trainings.filter((item, i) => i !== editStatus.index),
+      experiences = [
+        ...experiences.filter((item, i) => i !== editStatus.index),
         form,
       ];
     } else {
-      trainings = [...trainings, form];
+      experiences = [...experiences, form];
     }
 
     let formData = {
-      trainings: trainings,
+      experiences: experiences,
     };
 
     dispatch(
@@ -100,18 +102,18 @@ const Trainning = () => {
   });
 
   // edit form dialog
-  const [dialogTitle, setDialogTitle] = useState("Add New Trainning");
+  const [dialogTitle, setDialogTitle] = useState("Add New Experience");
 
   const editHandler = (index) => {
     setDialogOpen(true);
 
-    setDialogTitle("update Trainings");
+    setDialogTitle("update Experience");
 
-    let training = {};
+    let experience = {};
 
-    currentUser?.profile?.trainings.forEach((item, i) => {
+    currentUser?.profile?.experiences.forEach((item, i) => {
       if (i === index) {
-        training = item;
+        experience = item;
       }
     });
 
@@ -122,18 +124,18 @@ const Trainning = () => {
 
     setForm((prevState) => ({
       ...prevState,
-      ...training,
+      ...experience,
     }));
   };
 
   //   traingins delete
   const deleteHandeler = (index) => {
-    let trainings = [
-      ...currentUser?.profile?.trainings?.filter((item, i) => i !== index),
+    let experiences = [
+      ...currentUser?.profile?.experiences?.filter((item, i) => i !== index),
     ];
 
     let formData = {
-      trainings: trainings,
+      experiences: experiences,
     };
     dispatch(updateProfile(formData));
   };
@@ -142,12 +144,12 @@ const Trainning = () => {
     <Box px={1} py={3}>
       <Container>
         <Box m={2}>
-          <Typography className={classes.portionTitle}>Trainnings</Typography>
+          <Typography className={classes.portionTitle}>Experience</Typography>
         </Box>
 
         <Box m={2}>
           <Box>
-            {currentUser?.profile?.trainings?.map((item, i) => (
+            {currentUser?.profile?.experiences?.map((item, i) => (
               <Box my={2}>
                 <Grid
                   container
@@ -155,17 +157,35 @@ const Trainning = () => {
                   justifyContent="space-between"
                 >
                   <Grid item sm={8} lg={8}>
-                    <Typography className={classes.training}>
-                      Training on : {item?.courseName}
+                    {item?.startDate && (
+                      <Typography
+                        style={{ fontFamily: "Gordita", fontSize: 12 }}
+                      >
+                        {moment(item?.startDate).format("MMM YYYY")}-{" "}
+                        {moment(item?.endDate).format("MMM YYYY")}
+                      </Typography>
+                    )}
+                    <Typography
+                      style={{
+                        fontFamily: "Gordita",
+                        fontSize: 16,
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
+
+                        margin: "3px 0px ",
+                      }}
+                    >
+                      {item?.companyName}
                     </Typography>
-                    <Typography className={classes.training}>
-                      Duraiton: {item?.duration} months
-                    </Typography>
-                    <Typography className={classes.training}>
-                      institute name : {item?.instituteName}
-                    </Typography>
-                    <Typography className={classes.training}>
-                      Instititue Location : {item?.instituteLocation}
+                    <Typography
+                      style={{
+                        fontFamily: "Gordita",
+                        fontSize: 14,
+                        fontWeight: "bold",
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {item?.designation}
                     </Typography>
                   </Grid>
 
@@ -188,7 +208,7 @@ const Trainning = () => {
 
         <Box m={2}>
           <Button variant="outlined" onClick={addHandler}>
-            add trainning
+            add experience
           </Button>
         </Box>
       </Container>
@@ -209,34 +229,10 @@ const Trainning = () => {
               variant="outlined"
               fullWidth
               size="small"
-              label="Course name"
-              name="courseName"
-              value={form.courseName}
-              onChange={(e) => formInputValue("courseName", e.target.value)}
-            />
-          </Box>
-          <Box my={2}>
-            <TextField
-              type="number"
-              variant="outlined"
-              fullWidth
-              size="small"
-              label="course duration in month"
-              name="duration"
-              value={form.duration}
-              onChange={(e) => formInputValue("duration", e.target.value)}
-            />
-          </Box>
-          <Box my={2}>
-            <TextField
-              type="text"
-              variant="outlined"
-              fullWidth
-              size="small"
-              label="Instititue Name"
-              name="instituteName"
-              value={form.instituteName}
-              onChange={(e) => formInputValue("instituteName", e.target.value)}
+              label="company name"
+              name="companyName"
+              value={form.companyName}
+              onChange={(e) => formInputValue("companyName", e.target.value)}
             />
           </Box>
           <Box my={2}>
@@ -244,12 +240,40 @@ const Trainning = () => {
               variant="outlined"
               fullWidth
               size="small"
-              label="Instititue Location"
-              name="instituteLocation"
-              value={form.instituteLocation}
-              onChange={(e) =>
-                formInputValue("instituteLocation", e.target.value)
-              }
+              label="designation"
+              name="designation"
+              value={form.designation}
+              onChange={(e) => formInputValue("designation", e.target.value)}
+            />
+          </Box>
+          <Box my={2}>
+            <TextField
+              type="date"
+              variant="outlined"
+              fullWidth
+              size="small"
+              label="start date"
+              name="startDate"
+              value={form.startDate}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange={(e) => formInputValue("startDate", e.target.value)}
+            />
+          </Box>
+          <Box my={2}>
+            <TextField
+              type="date"
+              variant="outlined"
+              fullWidth
+              size="small"
+              label="end date"
+              name="endDate"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={form.endDate}
+              onChange={(e) => formInputValue("endDate", e.target.value)}
             />
           </Box>
         </DialogContent>
@@ -266,4 +290,4 @@ const Trainning = () => {
   );
 };
 
-export default Trainning;
+export default Experience;
