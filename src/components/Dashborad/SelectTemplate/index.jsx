@@ -47,14 +47,14 @@ const SelectTemplate = () => {
                 <FormControlLabel
                   value="template1"
                   label={<Avatar src={resumeOne} className={classes.avatar} />}
-                  control={<Radio />}
+                  control={<Radio color="primary" />}
                   labelPlacement="Top"
                   placeholder="template1"
                 />
                 <FormControlLabel
                   value="template2"
                   label={<Avatar src={resumeTwo} className={classes.avatar} />}
-                  control={<Radio />}
+                  control={<Radio color="primary" />}
                   labelPlacement="Top"
                   placeholder="template2"
                 />
@@ -63,7 +63,7 @@ const SelectTemplate = () => {
                   label={
                     <Avatar src={resumeThree} className={classes.avatar} />
                   }
-                  control={<Radio />}
+                  control={<Radio color="primary" />}
                   labelPlacement="Top"
                   placeholder="template3"
                 />

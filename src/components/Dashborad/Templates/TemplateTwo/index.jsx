@@ -50,6 +50,9 @@ const useStyles = makeStyles({
     color: "white",
     fontWeight: "bold",
   },
+  bg: {
+    background: "white",
+  },
 });
 const TemplateTwo = () => {
   const { currentUser } = useSelector((state) => state.auth);
@@ -78,20 +81,20 @@ const TemplateTwo = () => {
         </Container>
       </Box>
 
-      <Box>
-        <Container maxWidth="md">
-          <Grid container justifyContent="space-between" spacing={3}>
-            <Grid item sm={6}>
+      <Box mt={2}>
+        <Grid container justifyContent="space-between" spacing={3}>
+          <Grid item sm={5} className={classes.bg}>
+            <Container maxWidth="sm">
               <PersonalLife />
               <Contact />
               <Education />
-            </Grid>
-            <Grid item sm={6}>
-              <Trainings />
-              <WorkExperience />
-            </Grid>
+            </Container>
           </Grid>
-        </Container>
+          <Grid item sm={6}>
+            <Trainings />
+            <WorkExperience />
+          </Grid>
+        </Grid>
       </Box>
     </Box>
   );
