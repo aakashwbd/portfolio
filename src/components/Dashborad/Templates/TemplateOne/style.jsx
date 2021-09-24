@@ -41,4 +41,7 @@ export const useStyle = makeStyles({
     fontWeight: "bold",
     color: "#765996",
   },
+  // phone: {
+  //   marginRight: 10,
+  // },
 });

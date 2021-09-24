@@ -46,8 +46,6 @@ const WorkExperience = () => {
       <Box>
         {currentUser?.profile?.experiences?.map((item, i) => (
           <Box my={2}>
-            {/* <Grid container>
-                      <Grid item sm={12} lg={8}> */}
             {item?.startDate && (
               <Typography className={classes.date}>
                 {moment(item?.startDate).format("MMM YYYY")}-{" "}

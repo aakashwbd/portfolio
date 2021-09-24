@@ -42,11 +42,11 @@ const Skills = () => {
               <Box>
                 <Box>
                   {currentUser &&
-                    currentUser?.Profile?.Skills?.map((item, i) => (
+                    currentUser?.profile?.skills?.map((item, i) => (
                       <>
                         <Box mt={2}>
                           <Grid container alignItems="center">
-                            <Grid item sm={2} key={i}>
+                            <Grid item sm={6} key={i}>
                               <Typography
                                 style={{
                                   fontFamily: "Gordita",

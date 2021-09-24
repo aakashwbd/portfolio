@@ -4,16 +4,17 @@ import {
   Card,
   CardContent,
   Container,
+  Snackbar,
   TextField,
   Typography,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { register } from "../../../stores/actions/authActions";
 
-// import axios from "axios";
 const Signup = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -25,36 +26,38 @@ const Signup = () => {
   });
 
   const hanldeInput = (e) => {
-    // setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
     setRegisterForm((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    // validate();
   };
 
   const registerSubmit = (e) => {
     e.preventDefault();
     console.log(registerForm);
-    // const data = {
-    //   name: registerForm.name,
-    //   email: registerForm.email,
-    //   password: registerForm.password,
-    //   password_comfirmaiton: registerForm.password_comfirmaiton,
-    // };
+    validate();
     dispatch(
       register(registerForm, () => {
         history.push("/login");
       })
     );
+  };
+  const validate = () => {
+    // let err = {};
+    if (!registerForm.username) {
+      alert("please fill user name");
+    }
+    if (!registerForm.email) {
+      alert("please fill email");
+    }
 
-    // axios.post(`http://127.0.0.1:8000/api/auth/register`, register).then((res) => {
-
-    // if (res.data.status === "done") {
-    //     // localStorage.setItem("authToken", res.data.data.token);
-    //     history.push("/login");
-    //   }
-
-    // });
+    if (!registerForm.password) {
+      alert("please fill password");
+    }
+    if (registerForm.password === registerForm.password_confirmation) {
+      alert("please fill dose not match");
+    }
   };
 
   return (
@@ -124,9 +127,7 @@ const Signup = () => {
                 sign up
               </Button>
             </Box>
-            {/* <Box my={3} textAlign='center'>
-              <Link>Forget Password</Link>
-            </Box> */}
+
             <Box my={3} textAlign="center">
               <Typography variant="button">
                 have an already account? <Link to="/login">Login</Link>

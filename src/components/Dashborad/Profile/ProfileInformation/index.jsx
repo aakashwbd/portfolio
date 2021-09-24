@@ -27,7 +27,8 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import CloseIcon from "@material-ui/icons/Close";
-
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../../../stores/actions/authActions";
 import { useEffect } from "react";
@@ -68,7 +69,7 @@ const ProfileInformation = () => {
     summary: "",
     githubUserName: "",
     linkedinUserName: "",
-    phone: "",
+    // phone: "",
   });
 
   const profileFormInput = (e) => {
@@ -82,7 +83,6 @@ const ProfileInformation = () => {
         phone: formValues,
       })
     );
-    // dispatch(updateProfile(formValues));
     setDialogBox(false);
   };
   const dispatch = useDispatch();
@@ -92,6 +92,7 @@ const ProfileInformation = () => {
   useEffect(() => {
     if (currentUser && currentUser.profile) {
       setProfileForm(currentUser.profile);
+      setFormValues(currentUser.profile.phone || [""]);
     }
   }, [currentUser]);
 
@@ -114,6 +115,7 @@ const ProfileInformation = () => {
     newFormValues.splice(i, 1);
     setFormValues(newFormValues);
   };
+
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -154,7 +156,7 @@ const ProfileInformation = () => {
 
         <Grid
           container
-          alignItems="center"
+          // alignItems="center"
           spacing={1}
           justifyContent="space-between"
         >
@@ -184,20 +186,23 @@ const ProfileInformation = () => {
           <Grid item sm={2}>
             <Grid container spacing={5}>
               <Grid item sm={2}>
-                <Box textAlign="center">
+                <Box mt={2} textAlign="center">
                   <Tooltip
                     title={currentUser?.profile?.linkedinUserName}
                     placement="top"
+                    arrow
                   >
                     <LinkedInIcon />
                   </Tooltip>
                 </Box>
               </Grid>
               <Grid item sm={2}>
-                <Box textAlign="right">
+                <Box mt={2} textAlign="right">
                   <Tooltip
                     title={currentUser?.profile?.githubUserName}
                     placement="top"
+                    arrow
+                    className={classes.tooltip}
                   >
                     <GitHubIcon />
                   </Tooltip>
@@ -283,6 +288,7 @@ const ProfileInformation = () => {
             <Autocomplete
               id="country"
               fullWidth
+              required
               options={country_data}
               value={profileForm.countries}
               onChange={(e, newValue) => {
@@ -314,37 +320,39 @@ const ProfileInformation = () => {
           </Box>
 
           <Box mt={2}>
-            <Box>
-              {formValues.map((item, i) => (
-                <Box mt={2}>
-                  <Grid container>
-                    <Grid item sm={10} key={i}>
-                      <TextField
-                        size="small"
-                        fullWidth
-                        variant="outlined"
-                        label="Phone "
-                        name="phone"
-                        value={item}
-                        onChange={(e) => handleChange(i, e)}
-                      />
+            <Grid container>
+              <Grid item sm={12}>
+                {formValues.map((item, i) => (
+                  <Box mt={2}>
+                    <Grid container>
+                      <Grid item sm={10}>
+                        <TextField
+                          size="small"
+                          fullWidth
+                          variant="outlined"
+                          label="Phone "
+                          name="phone"
+                          value={item}
+                          onChange={(e) => handleChange(i, e)}
+                        />
+                      </Grid>
+
+                      <Grid item sm={1}>
+                        {i ? (
+                          <IconButton onClick={() => removeFormFields(i)}>
+                            <CloseIcon />
+                          </IconButton>
+                        ) : (
+                          <IconButton onClick={() => addHandler()}>
+                            <AddCircleOutlineIcon />
+                          </IconButton>
+                        )}
+                      </Grid>
                     </Grid>
-                    <Grid item sm={2}>
-                      {i ? (
-                        <IconButton onClick={() => removeFormFields(i)}>
-                          <CloseIcon />
-                        </IconButton>
-                      ) : null}
-                    </Grid>
-                  </Grid>
-                </Box>
-              ))}
-            </Box>
-            <Box>
-              <IconButton onClick={() => addHandler()}>
-                <AddCircleOutlineIcon />
-              </IconButton>
-            </Box>
+                  </Box>
+                ))}
+              </Grid>
+            </Grid>
           </Box>
 
           <Box mt={2}>

@@ -9,10 +9,14 @@ import {
   Avatar,
   makeStyles,
   Container,
+  Button,
 } from "@material-ui/core";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { resumeOne, resumeThree, resumeTwo } from "../../../constant/_icon";
 import Dashboard from "../../../layouts/Dashboard";
+import { updateProfile } from "../../../stores/actions/authActions";
 
 const useStyles = makeStyles({
   wrapper: {
@@ -30,12 +34,21 @@ const useStyles = makeStyles({
   },
 });
 const SelectTemplate = () => {
+  const dispatch = useDispatch();
+  // const { currentUser } = useSelector((state) => state.auth);
   const classes = useStyles();
   const [radioValue, setRadioValue] = useState();
 
   const changeHandler = (e) => {
     setRadioValue(e.target.value);
   };
+
+  // const [selectTemp, setSelectTemp] = useState({
+  //   chooseTemplate: "",
+  // });
+  // const submitHandler = () => {
+
+  // };
 
   return (
     <Dashboard>
@@ -70,6 +83,9 @@ const SelectTemplate = () => {
               </Box>
             </RadioGroup>
           </FormControl>
+          {/* <Button variant="outlined" onClick={submitHandler}>
+            Save
+          </Button> */}
         </Container>
       </Box>
     </Dashboard>

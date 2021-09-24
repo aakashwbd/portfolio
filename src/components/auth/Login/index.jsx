@@ -88,12 +88,12 @@ const Login = () => {
                 login
               </Button>
             </Box>
-            <Box my={3} textAlign="center">
+            {/* <Box my={3} textAlign="center">
               <Link>Forget Password</Link>
-            </Box>
+            </Box> */}
             <Box my={3} textAlign="center">
               <Typography variant="button">
-                Dont have an account? <Link to="/signup">Singup</Link>{" "}
+                Dont have an account? <Link to="/signup">Singup</Link>
               </Typography>
             </Box>
           </CardContent>

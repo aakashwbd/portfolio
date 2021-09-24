@@ -3,14 +3,13 @@ import {
   Box,
   Container,
   Grid,
-  List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@material-ui/core";
 import { useStyle } from "./style";
-import { useEffect } from "react";
+
 import { useSelector } from "react-redux";
 import moment from "moment";
 import LanguageIcon from "@material-ui/icons/Language";
@@ -42,23 +41,21 @@ const Contact = () => {
                       primary={currentUser?.profile?.countries?.title}
                     />
                   </ListItem>
-
                   {currentUser?.profile?.phone?.map((item, i) => (
                     <ListItem>
                       <ListItemIcon className={classes.listIcon}>
                         <PhoneIcon size="small" />
                       </ListItemIcon>
+
                       <ListItemText primary={item} />
                     </ListItem>
                   ))}
-
                   <ListItem>
                     <ListItemIcon>
                       <MailOutlineIcon />
                     </ListItemIcon>
                     <ListItemText primary={currentUser?.email} />
                   </ListItem>
-
                   <ListItem>
                     <ListItemIcon>
                       <GitHubIcon />
@@ -67,7 +64,6 @@ const Contact = () => {
                       primary={currentUser?.profile?.githubUserName}
                     />
                   </ListItem>
-
                   <ListItem>
                     <ListItemIcon>
                       <LinkedInIcon />
@@ -88,8 +84,6 @@ const Contact = () => {
               <Box>
                 {currentUser?.profile?.experiences?.map((item, i) => (
                   <Box my={2}>
-                    {/* <Grid container>
-                      <Grid item sm={12} lg={8}> */}
                     {item?.startDate && (
                       <Typography
                         style={{
@@ -123,8 +117,6 @@ const Contact = () => {
                     >
                       {item?.companyName}
                     </Typography>
-                    {/* </Grid>
-                    </Grid> */}
                   </Box>
                 ))}
               </Box>

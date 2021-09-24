@@ -48,7 +48,7 @@ const Education = () => {
             spacing={2}
           >
             {currentUser?.profile?.educations?.map((item, i) => (
-              <Grid item sm={5} lg={4}>
+              <Grid item sm={5} lg={5}>
                 {item?.startDate && (
                   <Typography className={classes.date}>
                     {moment(item?.startDate).format("MMM YYYY")} -

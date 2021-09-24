@@ -11,24 +11,19 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { hero3 } from "../../../constant/_icon";
-// import Portait from "../shared/Portait";
+
 import CopyRight from "./CopyRight";
 import SendIcon from "@material-ui/icons/Send";
 const useStyle = makeStyles({
   wrapper: {
     paddingTop: 50,
     marginTop: 100,
-    // paddingTop: 6,
     backgroundColor: "rgba(0,0,0,0.3)",
-    // "@media(max-width:600px)": {
-    //   textAlign: 'center',
-    // }
   },
   heroBg: {
     height: "100%",
     width: "100%",
     marginTop: 6,
-    // background: `url(${hero3}) no-repeat top right `,
   },
   title: {
     fontSize: 24,
@@ -95,7 +90,6 @@ const useStyle = makeStyles({
 const Footer = () => {
   const classes = useStyle();
 
-  
   return (
     <>
       <Box id="contact" className={classes.wrapper}>

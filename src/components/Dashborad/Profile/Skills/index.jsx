@@ -128,7 +128,11 @@ const Skills = () => {
   }, [skillForm]);
 
   console.log(skillForm);
+  // useEffect(() => {
+  //   if ( skillForm && skillForm) {
 
+  //   }
+  // }, [skillForm]);
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -162,7 +166,6 @@ const Skills = () => {
                         {item?.competency?.title}
                       </Typography>
                     </Grid>
-
                     <Grid item sm={6}>
                       <Typography>{item?.skillName}</Typography>
                     </Grid>
@@ -257,6 +260,7 @@ const Skills = () => {
                           variant="outlined"
                           size="small"
                           name="skillName"
+                          required
                           value={item.skillName}
                           onChange={(e) =>
                             fieldChangeHandler("skillName", i, e.target.value)
@@ -266,6 +270,7 @@ const Skills = () => {
                       <TableCell style={{ width: 200 }}>
                         <TextField
                           fullWidth
+                          required
                           type="number"
                           size="small"
                           variant="outlined"
@@ -280,6 +285,7 @@ const Skills = () => {
                         <Autocomplete
                           size="small"
                           fullWidth
+                          required
                           value={item.competency}
                           options={skills_lavel}
                           onChange={(e, data) =>
@@ -292,9 +298,11 @@ const Skills = () => {
                         />
                       </TableCell>
                       <TableCell>
-                        <IconButton onClick={() => deleteSkillItem(i)}>
-                          <CloseIcon />
-                        </IconButton>
+                        {i ? (
+                          <IconButton onClick={() => deleteSkillItem(i)}>
+                            <CloseIcon />
+                          </IconButton>
+                        ) : null}
                       </TableCell>
                     </TableRow>
                   ))}

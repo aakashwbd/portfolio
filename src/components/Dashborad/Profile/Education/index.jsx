@@ -134,8 +134,14 @@ const Education = () => {
   // console.log("educationform", educationForm);
 
   const educationFormSubmit = () => {
-    let educations = [...currentUser?.profile?.educations];
+    // let educations = [...currentUser?.profile?.educations];
 
+    let educations = [];
+    if (currentUser && currentUser.profile && currentUser.profile.educations) {
+      educations = [...currentUser.profile.educations];
+    } else {
+      educations = [];
+    }
     if (editStatus.status) {
       educations = [
         ...educations.filter((item, i) => i !== editStatus.index),

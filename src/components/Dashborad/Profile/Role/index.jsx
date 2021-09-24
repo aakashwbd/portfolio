@@ -59,6 +59,7 @@ const Role = () => {
       setRoleForm(currentUser.profile);
     }
   }, [currentUser]);
+
   return (
     <Box px={1} py={3}>
       {/* Showing information in Card Component */}
@@ -85,14 +86,13 @@ const Role = () => {
                     className={classes.availability}
                     style={{ textTransform: "capitalize" }}
                   >
-                    {/* Web Front-End
-                     */}
                     {currentUser?.profile?.role}
                   </Typography>
-                  <Typography style={{ fontSize: 14 }}>
-                    {/* 1000000/month */}
-                    {currentUser?.profile?.salary} BDT/month
-                  </Typography>
+                  {currentUser?.profile?.salary && (
+                    <Typography style={{ fontSize: 14 }}>
+                      {currentUser?.profile?.salary} BDT/month
+                    </Typography>
+                  )}
                 </ListItemText>
                 <ListItemIcon>
                   <IconButton onClick={handleClickDialogOpen}>

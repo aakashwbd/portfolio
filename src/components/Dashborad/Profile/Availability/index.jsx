@@ -73,7 +73,7 @@ const Availability = () => {
 
   useEffect(() => {
     if (currentUser && currentUser.profile) {
-      setFullTimeJobValue(currentUser.profile);
+      setFullTimeJobValue(currentUser.profile.fullTimeJob);
     }
   }, [currentUser]);
   return (

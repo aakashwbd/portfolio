@@ -7,12 +7,11 @@ import {
   ListItemText,
   makeStyles,
 } from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import PermIdentityOutlinedIcon from "@material-ui/icons/PermIdentityOutlined";
 
 import AccountTreeIcon from "@material-ui/icons/AccountTree";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../stores/actions/authActions";
@@ -40,17 +39,19 @@ const useStyles = makeStyles({
     color: "#000000",
     textDecoration: "none !important",
   },
+  active: {
+    background:
+      "linear-gradient(180deg, #9289F3 0%, rgba(139, 137, 243, 0.81) 100%)",
+    color: "white",
+    borderRadius: 3,
+    boxShadow: "0px 4px 4px rgba(146, 137, 243, 0.26)",
+  },
 });
 
 const Sidebar = () => {
   const classes = useStyles();
   const [open, setOpen] = useState();
 
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
-  const { currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const logoutHandler = () => {
@@ -75,7 +76,11 @@ const Sidebar = () => {
         </Box>
 
         <Box>
-          <Link to="/select_template" className={classes.a}>
+          <Link
+            to="/select_template"
+            // activeClassName="active"
+            className={classes.a}
+          >
             <ListItem button className={classes.list}>
               <ListItemIcon>
                 <AccountTreeIcon />

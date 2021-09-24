@@ -11,6 +11,7 @@ import Education from "./Education";
 import Skills from "./Skills";
 import Trainning from "./Trainning";
 import Experience from "./Experience";
+import Language from "./Language";
 
 const Profile = () => {
   const classes = useStyles();
@@ -50,8 +51,13 @@ const Profile = () => {
         </Box>
 
         <Box mt={0.5}>
-          <Card className={classes.trainingCard} elevation={0}>
+          <Card elevation={0}>
             <Trainning />
+          </Card>
+        </Box>
+        <Box mt={0.5}>
+          <Card elevation={0}>
+            <Language />
           </Card>
         </Box>
       </Container>

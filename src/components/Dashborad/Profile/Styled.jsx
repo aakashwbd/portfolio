@@ -90,6 +90,9 @@ const useStyles = makeStyles({
     fontSize: 14,
     textTransform: "capitalize",
   },
+  tooltip: {
+    background: "white",
+  },
 });
 
 export default useStyles;
