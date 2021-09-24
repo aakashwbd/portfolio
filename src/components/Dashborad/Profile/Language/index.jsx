@@ -57,20 +57,14 @@ const Language = () => {
 
   // form
   const [form, setForm] = useState({
-    courseName: "",
-    duration: "",
-    instituteName: "",
-    instituteLocation: "",
+    languageName: "",
   });
 
   // reset form
   const resetForm = () => {
     setForm((prevState) => ({
       ...prevState,
-      courseName: "",
-      duration: "",
-      instituteName: "",
-      instituteLocation: "",
+      languageName: "",
     }));
   };
 
@@ -180,17 +174,17 @@ const Language = () => {
                 >
                   <Grid item sm={8} lg={8}>
                     <Typography className={classes.training}>
-                      Training on : {item?.courseName}
+                      Language : {item?.courseName}
                     </Typography>
                     <Typography className={classes.training}>
-                      Duraiton: {item?.duration} months
+                      Proficiency: {item?.duration}
                     </Typography>
-                    <Typography className={classes.training}>
+                    {/* <Typography className={classes.training}>
                       institute name : {item?.instituteName}
                     </Typography>
                     <Typography className={classes.training}>
                       Instititue Location : {item?.instituteLocation}
-                    </Typography>
+                    </Typography> */}
                   </Grid>
 
                   <Grid item sm={2} lg={2}>
@@ -234,9 +228,9 @@ const Language = () => {
               fullWidth
               size="small"
               label="Language Name"
-              name="courseName"
-              value={form.courseName}
-              onChange={(e) => formInputValue("courseName", e.target.value)}
+              name="languageName"
+              value={form.languageName}
+              onChange={(e) => formInputValue("languageName", e.target.value)}
             />
           </Box>
           <Box my={2}>
@@ -248,35 +242,32 @@ const Language = () => {
                 options={proficiency_data}
                 getOptionLabel={(option) => option.title}
                 renderInput={(data) => (
-                  <TextField {...data} label={label} variant="outlined" />
+                  <TextField {...data} label="Reading" variant="outlined" />
                 )}
               />
             </Box>
-            {/* <Grid container>
-              <Grid item sm={4}></Grid>
-              <Grid item sm={4}>
-                <Autocomplete
-                  size="small"
-                  fullWidth
-                  options={proficiency_data}
-                  getOptionLabel={(option) => option.title}
-                  renderInput={(data) => (
-                    <TextField {...data} label={label} variant="outlined" />
-                  )}
-                />
-              </Grid>
-              <Grid item sm={4}>
-                <Autocomplete
-                  size="small"
-                  fullWidth
-                  options={proficiency_data}
-                  getOptionLabel={(option) => option.title}
-                  renderInput={(data) => (
-                    <TextField {...data} label={label} variant="outlined" />
-                  )}
-                />
-              </Grid>
-            </Grid> */}
+            <Box mt={2}>
+              <Autocomplete
+                size="small"
+                fullWidth
+                options={proficiency_data}
+                getOptionLabel={(option) => option.title}
+                renderInput={(data) => (
+                  <TextField {...data} label="Writting" variant="outlined" />
+                )}
+              />
+            </Box>
+            <Box mt={2}>
+              <Autocomplete
+                size="small"
+                fullWidth
+                options={proficiency_data}
+                getOptionLabel={(option) => option.title}
+                renderInput={(data) => (
+                  <TextField {...data} label="Listening" variant="outlined" />
+                )}
+              />
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
