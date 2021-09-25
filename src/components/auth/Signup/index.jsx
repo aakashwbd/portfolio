@@ -37,29 +37,31 @@ const Signup = () => {
     e.preventDefault();
     console.log(registerForm);
     validate();
+    setOpenAlert(true);
     dispatch(
       register(registerForm, () => {
         history.push("/login");
       })
     );
   };
-  const validate = () => {
-    // let err = {};
-    if (!registerForm.username) {
-      alert("please fill user name");
-    }
-    if (!registerForm.email) {
-      alert("please fill email");
-    }
+  const [openAlert, setOpenAlert] = useState(false);
 
-    if (!registerForm.password) {
-      alert("please fill password");
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
     }
-    if (registerForm.password === registerForm.password_confirmation) {
-      alert("please fill dose not match");
-    }
+    setOpenAlert(false);
   };
 
+  const validate = () => {
+    // let err = {};
+    // setOpenAlert(true);
+    if (!registerForm.username || registerForm.username.length < 6) {
+      // err.username = "please fill user name & username min 6 character";
+      setOpenAlert(true);
+    }
+  };
+  console.log(openAlert);
   return (
     <Box mt={5}>
       <Container maxWidth="sm">
@@ -79,6 +81,15 @@ const Signup = () => {
                 value={registerForm.username}
                 onChange={hanldeInput}
               />
+              <Snackbar
+                open={openAlert}
+                autoHideDuration={6000}
+                onClose={handleCloseAlert}
+                severity="error"
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+              >
+                <Alert>please fill user name username min 6 character</Alert>;
+              </Snackbar>
             </Box>
             <Box my={3}>
               <TextField
